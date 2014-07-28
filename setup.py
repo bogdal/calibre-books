@@ -1,5 +1,6 @@
 #! /usr/bin/env python
-from setuptools import setup, find_packages, Command
+# -*- coding: utf-8 -*-
+from setuptools import setup, find_packages
 import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'calibre_books.settings')
@@ -15,8 +16,8 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django>=1.6',
+        'django-bootstrap3>=4.8.2',
     ],
     entry_points={
         'console_scripts': ['manage.py = calibre_books:manage']},
-    )
-
+)

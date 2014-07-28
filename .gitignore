@@ -55,5 +55,5 @@ docs/_build/
 .idea
 *~
 db.sqlite3
-
+metadata.db
 
