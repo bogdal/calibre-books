@@ -37,6 +37,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Local apps
+    'calibre_books.book',
+
+    # External apps
     'bootstrap3',
 )
 
