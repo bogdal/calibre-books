@@ -43,6 +43,7 @@ INSTALLED_APPS = (
 
     # External apps
     'bootstrap3',
+    'django_dropbox',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -97,3 +98,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DROPBOX_CONSUMER_KEY = ''
+DROPBOX_CONSUMER_SECRET = ''
+DROPBOX_ACCESS_TOKEN = ''
+DROPBOX_ACCESS_TOKEN_SECRET = ''
+
+DROPBOX_CALIBRE_DIR = 'CalibreLibrary'

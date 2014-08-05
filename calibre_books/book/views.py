@@ -1,5 +1,7 @@
-from django.views.generic import TemplateView
+from django.views.generic import ListView
+from calibre_books.calibre.models import Book
 
 
-class BookListView(TemplateView):
+class BookListView(ListView):
+    model = Book
     template_name = 'book/list.html'

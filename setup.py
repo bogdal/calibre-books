@@ -17,6 +17,7 @@ setup(
     install_requires=[
         'Django>=1.6',
         'django-bootstrap3>=4.8.2',
+        'django-dropbox==0.0.2'
     ],
     entry_points={
         'console_scripts': ['manage.py = calibre_books:manage']},

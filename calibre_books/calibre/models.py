@@ -1,4 +1,8 @@
+from django.conf import settings
+from django.core.cache import cache
 from django.db import models
+from django_dropbox.storage import DropboxStorage
+from dropbox.rest import ErrorResponse
 
 
 class Book(models.Model):
@@ -11,6 +15,20 @@ class Book(models.Model):
     path = models.CharField(max_length=255)
     uuid = models.CharField(max_length=255)
     last_modified = models.DateTimeField(max_length=255)
+
+    @property
+    def cover_url(self):
+        cache_key = 'cover-url-%s' % self.uuid
+        url = cache.get(cache_key)
+        if not url:
+            client = DropboxStorage().client
+            try:
+                url = client.media('/%s/%s/cover.jpg' % (settings.DROPBOX_CALIBRE_DIR, self.path)).get('url')
+            except ErrorResponse:
+                url = ''
+            else:
+                cache.set(cache_key, url)
+        return url
 
     class Meta:
         db_table = 'books'

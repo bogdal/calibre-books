@@ -2,4 +2,8 @@
 
 {% block content %}
 
+    {% for book in object_list %}
+        <img src='{{ book.cover_url }}'>{{ book.title }}<br>
+    {% endfor %}
+
 {% endblock %}
