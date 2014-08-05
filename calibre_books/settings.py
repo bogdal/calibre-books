@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 
     # Local apps
     'calibre_books.book',
+    'calibre_books.calibre',
 
     # External apps
     'bootstrap3',
@@ -69,8 +70,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'calibre': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'metadata.db'),
     }
 }
+
+DATABASE_ROUTERS = ['calibre_books.calibre.db_router.DbRouter']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
