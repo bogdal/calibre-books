@@ -43,6 +43,11 @@ class Book(models.Model):
     def download_url(self):
         return self._get_extra_value('download_url')
 
+    def set_data(self, name, value):
+        data, _ = self.plugin_data.get_or_create(name=name)
+        data.value = value
+        data.save()
+
     class Meta:
         db_table = 'books'
         ordering = ('last_modified',)
@@ -55,6 +60,27 @@ class AuthorBook(models.Model):
 
     class Meta:
         db_table = 'books_authors_link'
+
+
+class Data(models.Model):
+
+    PDF = 'PDF'
+    MOBI = 'MOBI'
+    EPUB = 'EPUB'
+
+    FORMATS = (
+        (PDF, "Pdf"),
+        (MOBI, 'Mobi'),
+        (EPUB, 'Epub')
+    )
+
+    book = models.ForeignKey(Book, db_column='book', related_name='data')
+    format = models.CharField(max_length=255, choices=FORMATS)
+    size = models.IntegerField(db_column='uncompressed_size')
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'data'
 
 
 class PluginData(models.Model):

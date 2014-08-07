@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
 
 {% block content %}
 
@@ -13,10 +14,17 @@
                     {% for author in book.authors.all %}
                         {{ author }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
+                    {% if book.download_url %}
+                        <br>
+                        <a href="{{ book.download_url }}" class="btn btn-primary btn-xs">MOBI</a>
+                    {% endif %}
                 </div>
                 <div class="clearfix"></div>
             {% endfor %}
         </div>
+
+        {% bootstrap_pagination page_obj %}
+    
     </div>
 
 {% endblock %}
