@@ -1,8 +1,15 @@
-from django.conf import settings
-from django.core.cache import cache
 from django.db import models
-from django_dropbox.storage import DropboxStorage
-from dropbox.rest import ErrorResponse
+
+
+class Author(models.Model):
+
+    name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'authors'
 
 
 class Book(models.Model):
@@ -15,20 +22,46 @@ class Book(models.Model):
     path = models.CharField(max_length=255)
     uuid = models.CharField(max_length=255)
     last_modified = models.DateTimeField(max_length=255)
+    authors = models.ManyToManyField(Author, through='AuthorBook')
+
+    def __unicode__(self):
+        return self.title
+
+    def _get_extra_value(self, name):
+        try:
+            data = self.plugin_data.get(name=name)
+        except PluginData.DoesNotExist:
+            pass
+        else:
+            return data.value
 
     @property
     def cover_url(self):
-        cache_key = 'cover-url-%s' % self.uuid
-        url = cache.get(cache_key)
-        if not url:
-            client = DropboxStorage().client
-            try:
-                url = client.media('/%s/%s/cover.jpg' % (settings.DROPBOX_CALIBRE_DIR, self.path)).get('url')
-            except ErrorResponse:
-                url = ''
-            else:
-                cache.set(cache_key, url)
-        return url
+        return self._get_extra_value('cover_url')
+
+    @property
+    def download_url(self):
+        return self._get_extra_value('download_url')
 
     class Meta:
         db_table = 'books'
+        ordering = ('last_modified',)
+
+
+class AuthorBook(models.Model):
+
+    book = models.ForeignKey(Book, db_column='book')
+    author = models.ForeignKey(Author, db_column='author')
+
+    class Meta:
+        db_table = 'books_authors_link'
+
+
+class PluginData(models.Model):
+
+    book = models.ForeignKey(Book, db_column='book', related_name='plugin_data')
+    name = models.CharField(max_length=255)
+    value = models.CharField(max_length=255, db_column='val')
+
+    class Meta:
+        db_table = 'books_plugin_data'

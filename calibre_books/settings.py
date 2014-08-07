@@ -24,7 +24,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # Local apps
-    'calibre_books.book',
+    'calibre_books.core',
     'calibre_books.calibre',
 
     # External apps
