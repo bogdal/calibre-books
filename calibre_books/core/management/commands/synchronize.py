@@ -18,6 +18,11 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
 
         self.client = DropboxStorage().client
+        calibre_db = self.client.get_file('/%s/metadata.db' % settings.DROPBOX_CALIBRE_DIR)
+
+        local_db = open(settings.DATABASES['calibre']['NAME'], 'wb')
+        local_db.write(calibre_db.read())
+        local_db.close()
 
         for book in Book.objects.all():
             print book.title,
