@@ -18,7 +18,8 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
 
         self.client = DropboxStorage().client
-        calibre_db = self.client.get_file('/%s/metadata.db' % settings.DROPBOX_CALIBRE_DIR)
+        calibre_db_path = '/%s/metadata.db' % settings.DROPBOX_CALIBRE_DIR
+        calibre_db = self.client.get_file(calibre_db_path)
 
         local_db = open(settings.DATABASES['calibre']['NAME'], 'wb')
         local_db.write(calibre_db.read())
@@ -27,16 +28,18 @@ class Command(NoArgsCommand):
         for book in Book.objects.all():
             print book.title,
 
-            url = self.get_url('/%s/%s/cover.jpg' % (settings.DROPBOX_CALIBRE_DIR, book.path))
-            if url:
-                book.set_data('cover_url', url)
-
-            try:
-                data = book.data.get(format=Data.MOBI)
-            except ObjectDoesNotExist:
-                pass
-            else:
-                url = self.get_url('/%s/%s/%s.mobi' % (settings.DROPBOX_CALIBRE_DIR, book.path, data.name))
+            if not book.cover_url:
+                url = self.get_url('/%s/%s/cover.jpg' % (settings.DROPBOX_CALIBRE_DIR, book.path))
                 if url:
-                    book.set_data('download_url', url)
+                    book.set_data('cover_url', url)
+
+            if not book.download_url:
+                try:
+                    data = book.data.get(format=Data.MOBI)
+                except ObjectDoesNotExist:
+                    pass
+                else:
+                    url = self.get_url('/%s/%s/%s.mobi' % (settings.DROPBOX_CALIBRE_DIR, book.path, data.name))
+                    if url:
+                        book.set_data('download_url', url)
             print 'done'
