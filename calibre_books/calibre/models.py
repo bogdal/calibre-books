@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import models
+from calibre_books.core.utils import get_dropbox_url
 
 
 class Author(models.Model):
@@ -39,10 +41,6 @@ class Book(models.Model):
     def cover_url(self):
         return self._get_extra_value('cover_url')
 
-    @property
-    def download_url(self):
-        return self._get_extra_value('download_url')
-
     def set_data(self, name, value):
         data, _ = self.plugin_data.get_or_create(name=name)
         data.value = value
@@ -81,6 +79,12 @@ class Data(models.Model):
 
     class Meta:
         db_table = 'data'
+        ordering = ('format',)
+
+    @property
+    def download_url(self):
+        path = '/%s/%s/%s.%s' % (settings.DROPBOX_CALIBRE_DIR, self.book.path, self.name, self.format.lower())
+        return get_dropbox_url(path)
 
 
 class PluginData(models.Model):

@@ -14,10 +14,10 @@
                     {% for author in book.authors.all %}
                         {{ author }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
-                    {% if book.download_url %}
                         <br>
-                        <a href="{{ book.download_url }}" class="btn btn-primary btn-xs">MOBI</a>
-                    {% endif %}
+                    {% for book_file in book.data.all %}
+                        <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs">{{ book_file.format }}</a>
+                    {% endfor %}
                 </div>
                 <div class="clearfix"></div>
             {% endfor %}
