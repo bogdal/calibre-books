@@ -29,20 +29,18 @@ class Book(models.Model):
     def __unicode__(self):
         return self.title
 
-    def _get_extra_value(self, name):
+    @property
+    def cover_url(self):
         try:
-            data = self.plugin_data.get(name=name)
+            data = self.plugin_data.get(name='cover_url')
         except PluginData.DoesNotExist:
             pass
         else:
             return data.value
 
-    @property
-    def cover_url(self):
-        return self._get_extra_value('cover_url')
-
-    def set_data(self, name, value):
-        data, _ = self.plugin_data.get_or_create(name=name)
+    @cover_url.setter
+    def cover_url(self, value):
+        data, _ = self.plugin_data.get_or_create(name='cover_url')
         data.value = value
         data.save()
 
