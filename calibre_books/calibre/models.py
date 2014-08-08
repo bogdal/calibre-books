@@ -46,7 +46,7 @@ class Book(models.Model):
 
     class Meta:
         db_table = 'books'
-        ordering = ('last_modified',)
+        ordering = ('-last_modified',)
 
 
 class AuthorBook(models.Model):
