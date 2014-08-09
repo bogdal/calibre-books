@@ -93,3 +93,13 @@ class PluginData(models.Model):
 
     class Meta:
         db_table = 'books_plugin_data'
+
+
+class Identifiers(models.Model):
+
+    book = models.ForeignKey(Book, db_column='book', related_name='identifiers')
+    type = models.CharField(max_length=255)
+    value = models.CharField(max_length=255, db_column='val')
+
+    class Meta:
+        db_table = 'identifiers'
