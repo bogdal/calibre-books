@@ -62,6 +62,9 @@ DATABASES = {
 
 DATABASE_ROUTERS = ['calibre_books.calibre.db_router.DbRouter']
 
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
