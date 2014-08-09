@@ -17,6 +17,10 @@
                         {{ author }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                         <br>
+                    {% for publisher in book.publishers.all %}
+                        <small>{{ publisher }}{% if not forloop.last %}, {% endif %}</small>
+                    {% endfor %}
+                        <br>
                     {% for book_file in book.data.all %}
                         <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs">{{ book_file.format }}</a>
                     {% endfor %}

@@ -24,7 +24,8 @@ class Book(models.Model):
     path = models.CharField(max_length=255)
     uuid = models.CharField(max_length=255)
     last_modified = models.DateTimeField(max_length=255)
-    authors = models.ManyToManyField(Author, through='AuthorBook')
+    authors = models.ManyToManyField('Author', through='AuthorBook')
+    publishers = models.ManyToManyField('Publisher', through='PublisherBook')
 
     def __unicode__(self):
         return self.title
@@ -95,7 +96,7 @@ class PluginData(models.Model):
         db_table = 'books_plugin_data'
 
 
-class Identifiers(models.Model):
+class Identifier(models.Model):
 
     book = models.ForeignKey(Book, db_column='book', related_name='identifiers')
     type = models.CharField(max_length=255)
@@ -103,3 +104,23 @@ class Identifiers(models.Model):
 
     class Meta:
         db_table = 'identifiers'
+
+
+class Publisher(models.Model):
+
+    name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'publishers'
+
+
+class PublisherBook(models.Model):
+
+    book = models.ForeignKey(Book, db_column='book')
+    publisher = models.ForeignKey(Publisher, db_column='publisher')
+
+    class Meta:
+        db_table = 'books_publishers_link'
