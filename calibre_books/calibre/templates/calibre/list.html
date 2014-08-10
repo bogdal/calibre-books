@@ -21,6 +21,13 @@
                         <small>{{ publisher }}{% if not forloop.last %}, {% endif %}</small>
                     {% endfor %}
                         <br>
+                    {% if book.tags.all %}
+                        <span class="glyphicon glyphicon-tags"></span>
+                        {% for tag in book.tags.all %}
+                            <small>{{ tag }}{% if not forloop.last %}, {% endif %}</small>
+                        {% endfor %}
+                            <br>
+                    {% endif %}
                     {% for book_file in book.data.all %}
                         <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs">{{ book_file.format }}</a>
                     {% endfor %}

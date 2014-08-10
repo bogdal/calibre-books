@@ -26,6 +26,7 @@ class Book(models.Model):
     last_modified = models.DateTimeField(max_length=255)
     authors = models.ManyToManyField('Author', through='AuthorBook')
     publishers = models.ManyToManyField('Publisher', through='PublisherBook')
+    tags = models.ManyToManyField('Tag', through='TagBook')
 
     def __unicode__(self):
         return self.title
@@ -124,3 +125,23 @@ class PublisherBook(models.Model):
 
     class Meta:
         db_table = 'books_publishers_link'
+
+
+class Tag(models.Model):
+
+    name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'tags'
+
+
+class TagBook(models.Model):
+
+    book = models.ForeignKey(Book, db_column='book')
+    tag = models.ForeignKey(Tag, db_column='tag')
+
+    class Meta:
+        db_table = 'books_tags_link'
