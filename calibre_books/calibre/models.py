@@ -33,18 +33,7 @@ class Book(models.Model):
 
     @property
     def cover_url(self):
-        try:
-            data = self.plugin_data.get(name='cover_url')
-        except PluginData.DoesNotExist:
-            pass
-        else:
-            return data.value
-
-    @cover_url.setter
-    def cover_url(self, value):
-        data, _ = self.plugin_data.get_or_create(name='cover_url')
-        data.value = value
-        data.save()
+        return "%s%s.jpg" % (settings.MEDIA_URL, self.uuid)
 
     class Meta:
         db_table = 'books'

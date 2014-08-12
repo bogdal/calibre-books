@@ -7,9 +7,7 @@
         <div class="row">
             {% for book in object_list %}
                 <div class="col-sm-3">
-                    {% if book.cover_url %}
-                        <img width="200" src='{{ book.cover_url }}' class="img-thumbnail">
-                    {% endif %}
+                    <img src='{{ book.cover_url }}' class="img-thumbnail">
                 </div>
                 <div class="col-sm-9">
                     <h2>{{ book.title }}</h2>
