@@ -9,5 +9,5 @@ class DbRouter(object):
 
     def db_for_write(self, model, **hints):
         if model._meta.app_label == 'calibre':
-            return 'calibre'
+            return None
         return 'default'

@@ -14,6 +14,13 @@ class Author(models.Model):
         db_table = 'authors'
 
 
+class BookManager(models.Manager):
+
+    def get_queryset(self):
+        qs = super(BookManager, self).get_queryset()
+        return qs.exclude(publishers__name='calibre').exclude(tags__name__in=['Clippings'])
+
+
 class Book(models.Model):
 
     title = models.CharField(max_length=255)
@@ -28,6 +35,8 @@ class Book(models.Model):
     publishers = models.ManyToManyField('Publisher', through='PublisherBook')
     tags = models.ManyToManyField('Tag', through='TagBook')
 
+    objects = BookManager()
+
     def __unicode__(self):
         return self.title
 
@@ -37,7 +46,7 @@ class Book(models.Model):
 
     class Meta:
         db_table = 'books'
-        ordering = ('-last_modified',)
+        ordering = ('-timestamp',)
 
 
 class AuthorBook(models.Model):
