@@ -7,7 +7,7 @@ from .models import Book, Data
 class BookListView(ListView):
     model = Book
     template_name = 'calibre/list.html'
-    paginate_by = 10
+    paginate_by = 12
 
 
 class DownloadView(RedirectView):

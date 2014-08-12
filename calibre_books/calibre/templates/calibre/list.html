@@ -7,31 +7,24 @@
         <div class="row">
             {% for book in object_list %}
                 <div class="col-sm-3">
-                    <img src='{{ book.cover_url }}' class="img-thumbnail">
-                </div>
-                <div class="col-sm-9">
-                    <h2>{{ book.title }}</h2>
-                    {% for author in book.authors.all %}
-                        {{ author }}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                        <br>
-                    {% for publisher in book.publishers.all %}
-                        <small>{{ publisher }}{% if not forloop.last %}, {% endif %}</small>
-                    {% endfor %}
-                        <br>
-                    {% if book.tags.all %}
-                        <span class="glyphicon glyphicon-tags"></span>
-                        {% for tag in book.tags.all %}
-                            <small>{{ tag }}{% if not forloop.last %}, {% endif %}</small>
+                    <div class="well">
+                        <img src='{{ book.cover_url }}' class="img-thumbnail">
+                        <h4>{{ book.title }}
+                            <small>
+                                {% for author in book.authors.all %}
+                                {{ author }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                            </small>
+                        </h4>
+                        {% for book_file in book.data.all %}
+                            <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs">{{ book_file.format }}</a>
                         {% endfor %}
-                            <br>
-                    {% endif %}
-                    {% for book_file in book.data.all %}
-                        <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs">{{ book_file.format }}</a>
-                    {% endfor %}
-                    <a href="#" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-phone"></span> {% trans "Send to Kindle" %}</a>
+{#                        <a href="#" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-phone"></span> {% trans "Send to Kindle" %}</a>#}
+                    </div>
                 </div>
-                <div class="clearfix"></div>
+                {% if forloop.counter|divisibleby:4 %}
+                    <div class="clearfix"></div>
+                {% endif %}
             {% endfor %}
         </div>
 
