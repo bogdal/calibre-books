@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
-{% load i18n bootstrap3 %}
+{% load i18n static bootstrap3 %}
+
+{% block bootstrap3_extra_head %}
+    <link href="{% static "css/styles.css" %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="inner cover">
             <div class="col-sm-8 col-sm-offset-2">
-                <h2>{% trans "Login" %}</h2>
                 <form action="" method="post" class="well">
                     {% csrf_token %}
                     {% bootstrap_form form %}
@@ -16,6 +25,12 @@
                     {% endbuttons %}
                 </form>
             </div>
+          </div>
+
         </div>
+
+      </div>
+
     </div>
+
 {% endblock %}

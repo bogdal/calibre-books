@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^', include('calibre_books.calibre.urls')),
 
     url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^logout/$', auth_views.logout, name='logout', kwargs={'next_page': settings.LOGIN_REDIRECT_URL}),
 
     url(r'^admin/', include(admin.site.urls)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
