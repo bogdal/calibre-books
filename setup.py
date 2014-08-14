@@ -21,6 +21,8 @@ setup(
         'dj_database_url>=0.2.2',
         'python-memcached==1.53',
         'PIL==1.1.7',
+        'gunicorn==19.1.0',
+        'psycopg2==2.5.3',
 
     ],
     entry_points={
