@@ -20,7 +20,7 @@ setup(
         'django-dropbox==0.0.2',
         'dj_database_url>=0.2.2',
         'python-memcached==1.53',
-        'PIL==1.1.7',
+        'Pillow==2.5.2',
         'gunicorn==19.1.0',
         'psycopg2==2.5.3',
 
