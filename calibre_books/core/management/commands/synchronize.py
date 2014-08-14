@@ -20,7 +20,6 @@ class Command(NoArgsCommand):
             f.write(calibre_db.read())
 
         for book in Book.objects.all():
-            print book.title,
 
             dropbox_cover_path = '/%s/%s/cover.jpg' % (settings.DROPBOX_CALIBRE_DIR, book.path)
             cover_path = "%s/cover-%s.jpg" % (settings.MEDIA_ROOT, book.uuid)
@@ -43,4 +42,4 @@ class Command(NoArgsCommand):
                     img.save(thumb_path)
 
                     os.remove(cover_path)
-            print 'done'
+
