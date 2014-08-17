@@ -2,35 +2,32 @@
 {% load i18n static bootstrap3 %}
 
 {% block bootstrap3_extra_head %}
-    <link href="{% static "css/styles.css" %}" rel="stylesheet">
+    <link href="{% static "css/login.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block bootstrap3_content %}
 
-    <div class="site-wrapper">
+    <div id="page">
+        <div id="middle_container">
 
-      <div class="site-wrapper-inner">
-
-        <div class="cover-container">
-
-          <div class="inner cover">
-            <div class="col-sm-8 col-sm-offset-2">
-                <form action="" method="post" class="well">
-                    {% csrf_token %}
-                    {% bootstrap_form form %}
-                    {% buttons %}
-                        <button type="submit" class="btn btn-primary">
-                            {% bootstrap_icon "user" %} {% trans "Login" %}
-                        </button>
-                    {% endbuttons %}
-                </form>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <form action="" method="post" class="well">
+                            {% csrf_token %}
+                            {% bootstrap_field form.username show_label=False %}
+                            {% bootstrap_field form.password show_label=False %}
+                            {% buttons %}
+                                <button type="submit" class="btn btn-primary">
+                                    {% bootstrap_icon "user" %} {% trans "Login" %}
+                                </button>
+                            {% endbuttons %}
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
 
         </div>
-
-      </div>
-
     </div>
 
 {% endblock %}

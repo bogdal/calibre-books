@@ -1,0 +1,30 @@
+html,
+body {
+  background: url(../img/bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  height: 100%;
+}
+
+#page {
+  height:100%;
+  width: 100%;
+  display:table;
+  overflow:hidden;
+  margin:0 auto;
+}
+
+*:first-child+html #page {position:relative;}/*ie7*/
+* html #page{position:relative;}/*ie6*/
+
+#middle_container {
+  display:table-cell;
+  vertical-align: middle;
+}
+*:first-child+html #middle_container{position:absolute;top:50%;}/*ie7*/
+* html #middle_container{position:absolute;top:50%;}/*ie6*/
+
+.well {
+    background-color: rgba(0,0,0,0.3);
+}
