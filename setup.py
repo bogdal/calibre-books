@@ -24,6 +24,7 @@ setup(
         'gunicorn==19.1.0',
         'psycopg2==2.5.3',
         'dj-static==0.0.6',
+        'django-sslify==0.2.3',
     ],
     entry_points={
         'console_scripts': ['manage.py = calibre_books:manage']},

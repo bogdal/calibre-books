@@ -39,6 +39,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'sslify.middleware.SSLifyMiddleware',
 )
 
 TEMPLATE_DIRS = [
@@ -91,6 +92,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+SSLIFY_DISABLE = bool(os.environ.get('SSLIFY_DISABLE', False))
 
 DROPBOX_CONSUMER_KEY = os.environ.get('DROPBOX_CONSUMER_KEY')
 DROPBOX_CONSUMER_SECRET = os.environ.get('DROPBOX_CONSUMER_SECRET')
