@@ -9,6 +9,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^', include('calibre_books.calibre.urls')),
+    url(r'^', include('calibre_books.core.urls')),
 
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout', kwargs={'next_page': settings.LOGIN_REDIRECT_URL}),

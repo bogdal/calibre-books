@@ -1,10 +1,10 @@
 import os
 
 from django.conf import settings
-from calibre_books.core.utils import DropboxStorage
+from calibre_books.calibre.models import Book
 from PIL import Image
 
-from .models import Book
+from .utils import DropboxStorage
 
 
 def synchronize_calibre():
