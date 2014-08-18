@@ -17,7 +17,7 @@ setup(
     install_requires=[
         'Django>=1.6',
         'django-bootstrap3>=4.8.2',
-        'django-dropbox==0.0.2',
+        'dropbox==2.1.0',
         'dj_database_url>=0.2.2',
         'Pillow==2.5.2',
         'gunicorn==19.1.0',

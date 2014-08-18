@@ -29,7 +29,6 @@ INSTALLED_APPS = (
 
     # External apps
     'bootstrap3',
-    'django_dropbox',
     'raven.contrib.django.raven_compat',
 )
 
@@ -100,6 +99,7 @@ DROPBOX_CONSUMER_KEY = os.environ.get('DROPBOX_CONSUMER_KEY')
 DROPBOX_CONSUMER_SECRET = os.environ.get('DROPBOX_CONSUMER_SECRET')
 DROPBOX_ACCESS_TOKEN = os.environ.get('DROPBOX_ACCESS_TOKEN')
 DROPBOX_ACCESS_TOKEN_SECRET = os.environ.get('DROPBOX_ACCESS_TOKEN_SECRET')
+DROPBOX_ACCESS_TYPE = 'dropbox'
 
 DROPBOX_CALIBRE_DIR = 'CalibreLibrary'
 

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from calibre_books.core.utils import get_dropbox_url
+from calibre_books.core.utils import DropboxStorage
 
 
 class Author(models.Model):
@@ -82,7 +82,7 @@ class Data(models.Model):
     @property
     def download_url(self):
         path = '/%s/%s/%s.%s' % (settings.DROPBOX_CALIBRE_DIR, self.book.path, self.name, self.format.lower())
-        return get_dropbox_url(path)
+        return DropboxStorage().get_url(path)
 
 
 class PluginData(models.Model):
