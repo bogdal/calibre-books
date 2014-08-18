@@ -1,7 +1,6 @@
 import os
 
 from django.conf import settings
-from dropbox.rest import ErrorResponse
 from calibre_books.core.utils import DropboxStorage
 from PIL import Image
 
@@ -20,11 +19,8 @@ def synchronize_calibre():
         thumb_path = "%s/%s.jpg" % (settings.MEDIA_ROOT, book.uuid)
 
         if not os.path.exists(thumb_path):
-            try:
-                cover = storage.client.get_file(dropbox_cover_path)
-            except ErrorResponse:
-                pass
-            else:
+            cover = storage.get_file(dropbox_cover_path)
+            if cover:
                 with open(cover_path, 'wb') as f:
                     f.write(cover.read())
 
