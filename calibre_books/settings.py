@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     # External apps
     'bootstrap3',
     'django_dropbox',
+    'raven.contrib.django.raven_compat',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,6 +103,8 @@ DROPBOX_ACCESS_TOKEN_SECRET = os.environ.get('DROPBOX_ACCESS_TOKEN_SECRET')
 
 DROPBOX_CALIBRE_DIR = 'CalibreLibrary'
 
+RAVEN_CONFIG = {'dsn': os.environ.get('SENTRY_DSN', '')}
+
 MEMCACHE_SERVERS = os.environ.get('MEMCACHE_SERVERS')
 
 if MEMCACHE_SERVERS:
@@ -111,3 +114,25 @@ if MEMCACHE_SERVERS:
             'LOCATION': MEMCACHE_SERVERS,
         }
     }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['sentry']
+    },
+    'handlers': {
+        'sentry': {
+            'level': 'INFO',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
+    },
+    'loggers': {
+        'calibre_books': {
+            'level': 'INFO',
+            'handlers': ['sentry'],
+            'propagate': False
+        }
+    }
+}

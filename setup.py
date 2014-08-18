@@ -25,6 +25,7 @@ setup(
         'psycopg2==2.5.3',
         'dj-static==0.0.6',
         'django-sslify==0.2.3',
+        'raven==5.0.0',
     ],
     entry_points={
         'console_scripts': ['manage.py = calibre_books:manage']},
