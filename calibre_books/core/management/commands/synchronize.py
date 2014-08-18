@@ -1,5 +1,5 @@
 from django.core.management.base import NoArgsCommand
-from calibre_books.calibre.sync import synchronize_calibre
+from calibre_books.core.sync import synchronize_calibre
 
 
 class Command(NoArgsCommand):
