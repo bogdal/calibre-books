@@ -105,16 +105,6 @@ DROPBOX_CALIBRE_DIR = 'CalibreLibrary'
 
 RAVEN_CONFIG = {'dsn': os.environ.get('SENTRY_DSN', '')}
 
-MEMCACHE_SERVERS = os.environ.get('MEMCACHE_SERVERS')
-
-if MEMCACHE_SERVERS:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': MEMCACHE_SERVERS,
-        }
-    }
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
