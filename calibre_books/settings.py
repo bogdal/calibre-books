@@ -126,3 +126,13 @@ LOGGING = {
         }
     }
 }
+
+MEMCACHE_SERVERS = os.environ.get('MEMCACHE_SERVERS')
+
+if MEMCACHE_SERVERS:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': MEMCACHE_SERVERS,
+        }
+    }

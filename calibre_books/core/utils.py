@@ -1,10 +1,14 @@
 from django.conf import settings
+from django.core.cache import cache
 from dropbox.client import DropboxClient
 from dropbox.rest import ErrorResponse
 from dropbox.session import DropboxSession
 
 
 class DropboxStorage(object):
+
+    calibre_db_path = '/%s/metadata.db' % settings.DROPBOX_CALIBRE_DIR
+    dropbox_cursor_key = 'dropbox_cursor'
 
     def __init__(self):
         session = DropboxSession(settings.DROPBOX_CONSUMER_KEY, settings.DROPBOX_CONSUMER_SECRET,
@@ -27,8 +31,12 @@ class DropboxStorage(object):
             pass
 
     def sync_db(self):
-        calibre_db_path = '/%s/metadata.db' % settings.DROPBOX_CALIBRE_DIR
-        calibre_db = self.client.get_file(calibre_db_path)
+        calibre_db = self.client.get_file(self.calibre_db_path)
 
         with open(settings.DATABASES['calibre']['NAME'], 'wb') as f:
             f.write(calibre_db.read())
+
+    def need_update(self):
+        delta = self.client.delta(cursor=cache.get(self.dropbox_cursor_key), path_prefix=self.calibre_db_path)
+        cache.set(self.dropbox_cursor_key, delta['cursor'], timeout=None)
+        return len(delta['entries']) > 0

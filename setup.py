@@ -25,6 +25,7 @@ setup(
         'dj-static==0.0.6',
         'django-sslify==0.2.3',
         'raven==5.0.0',
+        'python-memcached==1.53',
     ],
     entry_points={
         'console_scripts': ['manage.py = calibre_books:manage']},
