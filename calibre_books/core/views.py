@@ -18,7 +18,7 @@ class DropboxWebhookView(View):
         return HttpResponse(self.request.GET.get('challenge'))
 
     def post(self, *args, **kwargs):
-        signature = self.request.META['HTTP_X_DROPBOX_SIGNATURE']
+        signature = self.request.META.get('HTTP_X_DROPBOX_SIGNATURE')
         if signature != hmac.new(settings.DROPBOX_CONSUMER_SECRET, self.request.body, sha256).hexdigest():
             return HttpResponseForbidden()
 
