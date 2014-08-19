@@ -23,5 +23,6 @@ class DropboxWebhookView(View):
             return HttpResponseForbidden()
 
         threading.Thread(target=synchronize_calibre).start()
+        logger.info(u"Synchronization has been started", extra={'request': self.request})
 
         return HttpResponse('')
