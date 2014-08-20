@@ -1,8 +1,12 @@
 {% extends 'bootstrap3/bootstrap3.html' %}
-{% load i18n bootstrap3 %}
+{% load i18n bootstrap3 static %}
 
 {% block bootstrap3_title %}
-    {% trans "Calibre Library" %}
+    {% trans "Calibre Books" %}
+{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    <link rel="Shortcut icon" href="{% static "img/favicon.jpg" %}" />
 {% endblock %}
 
 {% block bootstrap3_content %}
