@@ -28,7 +28,9 @@
             {% endfor %}
         </div>
 
-        {% bootstrap_pagination page_obj extra=filters %}
+        {% if paginator.num_pages > 1 %}
+            {% bootstrap_pagination page_obj extra=filters %}
+        {% endif %}
     
     </div>
 
