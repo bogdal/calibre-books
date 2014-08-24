@@ -17,7 +17,7 @@
                             </small>
                         </h4>
                         {% for book_file in book.data.all %}
-                            <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs">{{ book_file.format }}</a>
+                            <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs" title="{% trans "File size" %}: {{ book_file.size|filesizeformat }}">{{ book_file.format }}</a>
                         {% endfor %}
 {#                        <a href="#" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-phone"></span> {% trans "Send to Kindle" %}</a>#}
                     </div>
