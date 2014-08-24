@@ -12,7 +12,7 @@
                         <h4>{{ book.title }}
                             <small>
                                 {% for author in book.authors.all %}
-                                {{ author }}{% if not forloop.last %}, {% endif %}
+                                <a href="{% url 'list' %}?author={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                             </small>
                         </h4>
@@ -28,7 +28,7 @@
             {% endfor %}
         </div>
 
-        {% bootstrap_pagination page_obj %}
+        {% bootstrap_pagination page_obj extra=filters %}
     
     </div>
 
