@@ -26,6 +26,8 @@ setup(
         'django-sslify==0.2.3',
         'raven==5.0.0',
         'python-memcached==1.53',
+        'django-haystack==2.2.0',
+        'whoosh==2.6.0',
     ],
     entry_points={
         'console_scripts': ['manage.py = calibre_books:manage']},

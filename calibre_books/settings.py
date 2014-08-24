@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     # External apps
     'bootstrap3',
     'raven.contrib.django.raven_compat',
+    'haystack',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -40,6 +41,17 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'sslify.middleware.SSLifyMiddleware',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.request",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
 )
 
 TEMPLATE_DIRS = [
@@ -136,3 +148,10 @@ if MEMCACHE_SERVERS:
             'LOCATION': MEMCACHE_SERVERS,
         }
     }
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    },
+}
