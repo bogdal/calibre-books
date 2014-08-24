@@ -12,7 +12,7 @@
                         <h4>{{ book.title }}
                             <small>
                                 {% for author in book.authors.all %}
-                                <a href="{% url 'list' %}?author={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                                <a href="{% url 'list' %}?q={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                             </small>
                         </h4>
