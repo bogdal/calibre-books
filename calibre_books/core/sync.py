@@ -1,6 +1,7 @@
 import os
 
 from django.conf import settings
+from django.core.management import call_command
 from calibre_books.calibre.models import Book
 from PIL import Image
 
@@ -33,3 +34,6 @@ def synchronize_calibre(force_update=False):
                     img.save(thumb_path)
 
                     os.remove(cover_path)
+
+        # search indexes
+        call_command("update_index")
