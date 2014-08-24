@@ -3,6 +3,7 @@ import logging
 from django.shortcuts import get_object_or_404
 from django.utils.http import urlencode
 from django.views.generic import ListView, RedirectView
+from haystack.forms import SearchForm
 
 from .models import Book, Data
 
@@ -17,16 +18,20 @@ class BookListView(ListView):
     def get_queryset(self):
         qs = super(BookListView, self).get_queryset()
         qs_kwargs = {}
+        search_form = SearchForm(data=self.request.GET or None)
+        if search_form.is_valid():
+            qs_kwargs['id__in'] = search_form.search().values_list('pk', flat=True)
         if 'author' in self.request.GET:
             qs_kwargs['authors__name__in'] = self.request.GET.getlist('author')
         if 'tag' in self.request.GET:
             qs_kwargs['tags__name__in'] = self.request.GET.getlist('tag')
         return qs.filter(**qs_kwargs)
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(BookListView, self).get_context_data(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(BookListView, self).get_context_data(**kwargs)
         context['filters'] = urlencode({'author': self.request.GET.getlist('author'),
-                                        'tag': self.request.GET.getlist('tag')}, doseq=1)
+                                        'tag': self.request.GET.getlist('tag'),
+                                        'q': self.request.GET.get('q')}, doseq=1)
         return context
 
 
