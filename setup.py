@@ -29,6 +29,7 @@ setup(
         'django-haystack==2.2.0',
         'whoosh==2.6.0',
         'django-debug-toolbar>=1.2.1',
+        'unidecode>=0.04.16',
     ],
     entry_points={
         'console_scripts': ['manage.py = calibre_books:manage']},

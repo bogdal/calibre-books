@@ -1,4 +1,5 @@
 from haystack import indexes
+from unidecode import unidecode
 
 from .models import Book
 
@@ -17,7 +18,9 @@ class BookIndex(indexes.SearchIndex, indexes.Indexable):
         text = [obj.title, obj.isbn, obj.uuid]
         if obj.series:
             text.extend([obj.series])
-        text.extend(obj.authors.all())
+        authors = [author.name for author in obj.authors.all()]
+        authors.extend(map(unidecode, authors))
+        text.extend(set(authors))
         text.extend(obj.tags.all())
         text.extend(obj.publishers.all())
         self.prepared_data['text'] = u' '.join(map(unicode, text))
