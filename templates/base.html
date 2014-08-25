@@ -23,6 +23,9 @@
         </div>
         <div class="navbar-collapse collapse">
 
+
+          <a class="navbar-brand" href="{% url 'list' %}">{% bootstrap_icon "home" %}</a>
+
           <form class="navbar-form navbar-left" role="form" action="{% url 'list' %}">
             <div class="form-group">
               <input type="text" name='q' value='{{ request.GET.q }}' placeholder="{% trans "Search" %}" class="form-control">
