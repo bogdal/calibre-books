@@ -16,6 +16,7 @@
                     <div class="col-sm-6 col-sm-offset-3">
                         <form action="" method="post" class="well">
                             {% csrf_token %}
+                            {% bootstrap_form_errors form %}
                             {% bootstrap_field form.username show_label=False %}
                             {% bootstrap_field form.password show_label=False %}
                             {% buttons %}
