@@ -28,6 +28,7 @@ class Book(models.Model):
     sort = models.CharField(max_length=255)
     timestamp = models.DateTimeField(max_length=255)
     pubdate = models.DateTimeField(max_length=255)
+    series_index = models.FloatField(default=1.0)
     path = models.CharField(max_length=255)
     uuid = models.CharField(max_length=255)
     last_modified = models.DateTimeField(max_length=255)
@@ -39,6 +40,12 @@ class Book(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    @property
+    def series(self):
+        series = self.book_series.all()
+        if series:
+            return series[0].series
 
     @property
     def cover_url(self):
@@ -143,3 +150,23 @@ class TagBook(models.Model):
 
     class Meta:
         db_table = 'books_tags_link'
+
+
+class Series(models.Model):
+
+    name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'series'
+
+
+class SeriesBook(models.Model):
+
+    book = models.ForeignKey(Book, db_column='book', related_name='book_series', unique=True)
+    series = models.ForeignKey(Series, db_column='series')
+
+    class Meta:
+        db_table = 'books_series_link'

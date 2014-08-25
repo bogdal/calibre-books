@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n bootstrap3 %}
+{% load i18n bootstrap3 roman_number %}
 
 {% block content %}
 
@@ -12,8 +12,9 @@
                         <h4>{{ book.title }}
                             <small>
                                 {% for author in book.authors.all %}
-                                <a href="{% url 'list' %}?q={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
+                                    <a href="{% url 'list' %}?q={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                                {% if book.series %}<p class="">{% trans "Series" %}: {{ book.series }} ({{ book.series_index|roman_number }})</p>{% endif %}
                             </small>
                         </h4>
                         {% for book_file in book.data.all %}
