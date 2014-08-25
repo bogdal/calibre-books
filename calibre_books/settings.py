@@ -12,10 +12,11 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split()
 
+INTERNAL_IPS = os.environ.get('INTERNAL_IPS', '127.0.0.1').split()
 
 # Application definition
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,9 +32,12 @@ INSTALLED_APPS = (
     'bootstrap3',
     'raven.contrib.django.raven_compat',
     'haystack',
-)
+]
 
-MIDDLEWARE_CLASSES = (
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
+
+MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -41,7 +45,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'sslify.middleware.SSLifyMiddleware',
-)
+]
+
+if DEBUG:
+    MIDDLEWARE_CLASSES += ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -77,6 +84,8 @@ DATABASE_ROUTERS = ['calibre_books.calibre.db_router.DbRouter']
 
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
