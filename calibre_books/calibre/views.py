@@ -17,11 +17,10 @@ class BookListView(ListView):
 
     def get_queryset(self):
         qs = super(BookListView, self).get_queryset()
-        qs_kwargs = {}
         search_form = SearchForm(data=self.request.GET or None)
         if search_form.is_valid():
-            qs_kwargs['id__in'] = search_form.search().values_list('pk', flat=True)
-        return qs.filter(**qs_kwargs)
+            qs = qs.filter(id__in=search_form.search().values_list('pk', flat=True))
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)

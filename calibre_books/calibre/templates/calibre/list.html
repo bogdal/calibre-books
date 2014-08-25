@@ -14,7 +14,7 @@
                                 {% for author in book.authors.all %}
                                     <a href="{% url 'list' %}?q={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
-                                {% if book.series %}<p class="">{% trans "Series" %}: {{ book.series }} ({{ book.series_index|roman_number }})</p>{% endif %}
+                                {% if book.series %}<a href="{% url 'list' %}?q={{ book.series }}" class="label label-default">{% trans "Series" %}: {{ book.series }} ({{ book.series_index|roman_number }})</a>{% endif %}
                             </small>
                         </h4>
                         {% for book_file in book.data.all %}

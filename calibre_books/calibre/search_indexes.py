@@ -15,6 +15,8 @@ class BookIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare(self, obj):
         self.prepared_data = super(BookIndex, self).prepare(obj)
         text = [obj.title, obj.isbn, obj.uuid]
+        if obj.series:
+            text.extend([obj.series])
         text.extend(obj.authors.all())
         text.extend(obj.tags.all())
         text.extend(obj.publishers.all())
