@@ -18,7 +18,7 @@ class BookManager(models.Manager):
 
     def get_queryset(self):
         qs = super(BookManager, self).get_queryset()
-        return (qs.prefetch_related('book_series', 'data', 'authors')
+        return (qs.prefetch_related('book_series', 'book_series__series', 'data', 'authors')
                 .exclude(publishers__name='calibre').exclude(tags__name__in=['Clippings']))
 
 
@@ -115,7 +115,7 @@ class Identifier(models.Model):
 
 class Publisher(models.Model):
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
     def __unicode__(self):
         return self.name
@@ -151,6 +151,7 @@ class TagBook(models.Model):
 
     class Meta:
         db_table = 'books_tags_link'
+        unique_together = ['book', 'tag']
 
 
 class Series(models.Model):

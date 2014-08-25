@@ -19,7 +19,7 @@ class BookListView(ListView):
         qs = super(BookListView, self).get_queryset()
         search_form = SearchForm(data=self.request.GET or None)
         if search_form.is_valid():
-            qs = qs.filter(id__in=search_form.search().values_list('pk', flat=True))
+            qs = qs.filter(id__in=search_form.search().values_list('pk', flat=True)).order_by('-pubdate')
         if 'series' in self.request.GET:
             qs = qs.order_by('series_index')
         return qs
