@@ -23,6 +23,15 @@ class BookManager(models.Manager):
         return (qs.prefetch_related('book_series', 'book_series__series', 'data', 'authors')
                 .exclude(publishers__name='calibre').exclude(tags__name__in=['Clippings']))
 
+    def by_column_value(self, label=None, value=None):
+        relation_name = 'custom_column_%s' % label
+        if not hasattr(self.model, relation_name):
+            return self.none()
+        kwargs = {}
+        if label:
+            kwargs['%s__value' % relation_name] = value
+        return self.filter(**kwargs)
+
 
 class Book(models.Model):
 
@@ -198,7 +207,7 @@ class CustomColumn(models.Model):
     def create_models(cls):
         for column in cls.objects.all():
             fields = {
-                'book': models.ForeignKey(Book, db_column='book', related_name='custom_column_%s' % column.id),
+                'book': models.ForeignKey(Book, db_column='book', related_name='custom_column_%s' % column.label),
                 'value':  models.BooleanField(),
                 'custom_column': column,
             }
