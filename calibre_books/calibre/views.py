@@ -22,7 +22,7 @@ class BookListView(ListView):
             qs = qs.filter(id__in=search_form.search().values_list('pk', flat=True)).order_by('-pubdate')
         if 'series' in self.request.GET:
             qs = qs.order_by('series_index')
-        return qs
+        return qs.filter(custom_columns_1__value=True)
 
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)

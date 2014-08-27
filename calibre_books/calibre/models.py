@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from calibre_books.core.utils import DropboxStorage
 
+from .utils import create_model
+
 
 class Author(models.Model):
 
@@ -172,3 +174,41 @@ class SeriesBook(models.Model):
 
     class Meta:
         db_table = 'books_series_link'
+
+
+class CustomColumnManager(models.Manager):
+
+    def get_queryset(self):
+        qs = super(CustomColumnManager, self).get_queryset()
+        return qs.filter(data_type='bool')
+
+
+class CustomColumn(models.Model):
+
+    label = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+    data_type = models.CharField(max_length=255, db_column='datatype')
+    mark_for_delete = models.BooleanField()
+    editable = models.BooleanField()
+    display = models.CharField(max_length=255)
+    is_multiple = models.BooleanField()
+    normalized = models.BooleanField()
+
+    @classmethod
+    def create_models(cls):
+        for column in cls.objects.all():
+            fields = {
+                'book': models.ForeignKey(Book, db_column='book', related_name='custom_column_%s' % column.id),
+                'value':  models.BooleanField(),
+                'custom_column': column,
+            }
+            options = {'db_table': 'custom_column_%s' % column.id}
+            create_model('CustomColumn%s' % column.id, fields, options=options, module=__name__)
+
+    class Meta:
+        db_table = 'custom_columns'
+
+    def __unicode__(self):
+        return self.name
+
+CustomColumn.create_models()
