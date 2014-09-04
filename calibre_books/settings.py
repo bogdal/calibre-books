@@ -205,3 +205,5 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
     },
 }
+
+DEFAULT_BOOKSHELF = os.environ.get('DEFAULT_BOOKSHELF')

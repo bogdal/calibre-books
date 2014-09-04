@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.utils.http import urlencode
 from django.views.generic import ListView, RedirectView
@@ -16,7 +17,10 @@ class BookListView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        qs = self.model.objects.by_column_value('read', value=True)
+        default_bookshelf = getattr(settings, 'DEFAULT_BOOKSHELF', None)
+        qs = super(BookListView, self).get_queryset()
+        if not self.request.user.is_staff and default_bookshelf:
+            qs = self.model.objects.by_column_value(default_bookshelf, value=True)
         search_form = SearchForm(data=self.request.GET or None)
         if search_form.is_valid():
             qs = qs.filter(id__in=search_form.search().values_list('pk', flat=True)).order_by('-pubdate')
