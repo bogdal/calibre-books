@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.db import models
+from django.db import models, OperationalError
 from calibre_books.core.utils import DropboxStorage
 
 from .utils import create_model
@@ -220,4 +220,7 @@ class CustomColumn(models.Model):
     def __unicode__(self):
         return self.name
 
-CustomColumn.create_models()
+try:
+    CustomColumn.create_models()
+except OperationalError:
+    pass
