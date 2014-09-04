@@ -13,10 +13,33 @@
 
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <form action="" method="post" class="well">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <h2>CalibreBooks</h2>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-4 well text-center">
+                        {% if backends.backends %}
+                        <div class="form-group">
+                            {% if 'google-oauth2' in backends.backends %}
+                            <p>
+                                <a class="btn btn-social btn-google-plus" href="{% url 'social:begin' 'google-oauth2' %}">
+                                    <i class="fa fa-google-plus"></i> {% trans "Sign in with Google" %}
+                                </a>
+                            </p>
+                            {% endif %}
+                            {% if 'github-org' in backends.backends %}
+                            <p>
+                                <a class="btn btn-social btn-github" href="{% url 'social:begin' 'github-org' %}">
+                                    <i class="fa fa-github"></i> {% trans "Sign in with Github" %}
+                                </a>
+                            </p>
+                            {% endif %}
+                        </div>
+                        <hr>
+                        {% endif %}
+                        <form action="" method="post">
                             {% csrf_token %}
                             {% bootstrap_form_errors form %}
+                            {% bootstrap_messages %}
                             {% bootstrap_field form.username show_label=False %}
                             {% bootstrap_field form.password show_label=False %}
                             {% buttons %}

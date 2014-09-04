@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'raven.contrib.django.raven_compat',
     'haystack',
+    'social.apps.django_app.default',
 ]
 
 if DEBUG:
@@ -45,6 +46,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'sslify.middleware.SSLifyMiddleware',
+    'calibre_books.core.middleware.SocialAuthExceptionMiddleware',
 ]
 
 if DEBUG:
@@ -58,7 +60,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages"
+    "django.contrib.messages.context_processors.messages",
+    "social.apps.django_app.context_processors.backends",
+    "social.apps.django_app.context_processors.login_redirect",
 )
 
 TEMPLATE_DIRS = [
@@ -83,6 +87,7 @@ DATABASES = {
 DATABASE_ROUTERS = ['calibre_books.calibre.db_router.DbRouter']
 
 LOGIN_URL = '/login'
+LOGIN_ERROR_URL = LOGIN_URL
 LOGIN_REDIRECT_URL = '/'
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
@@ -121,8 +126,44 @@ DROPBOX_CONSUMER_SECRET = os.environ.get('DROPBOX_CONSUMER_SECRET')
 DROPBOX_ACCESS_TOKEN = os.environ.get('DROPBOX_ACCESS_TOKEN')
 DROPBOX_ACCESS_TOKEN_SECRET = os.environ.get('DROPBOX_ACCESS_TOKEN_SECRET')
 DROPBOX_ACCESS_TYPE = 'dropbox'
-
 DROPBOX_CALIBRE_DIR = 'CalibreLibrary'
+
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.social_auth.associate_by_email',
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details'
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_USE_DEPRECATED_API = True
+
+SOCIAL_AUTH_GITHUB_ORG_KEY = os.environ.get('GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_ORG_SECRET = os.environ.get('GITHUB_SECRET')
+SOCIAL_AUTH_GITHUB_ORG_SCOPE = ['user:email', 'read:org']
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = os.environ.get('GOOGLE_WHITELISTED_DOMAINS', '').split()
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = os.environ.get('GOOGLE_WHITELISTED_EMAILS', '').split()
+SOCIAL_AUTH_GITHUB_ORG_NAME = os.environ.get('GITHUB_ORG_NAME', '')
+
+AUTHENTICATION_BACKENDS = []
+
+if SOCIAL_AUTH_GOOGLE_OAUTH2_KEY:
+    AUTHENTICATION_BACKENDS += ['social.backends.google.GoogleOAuth2']
+
+if SOCIAL_AUTH_GITHUB_ORG_KEY:
+    AUTHENTICATION_BACKENDS += ['social.backends.github.GithubOrganizationOAuth2']
+
+AUTHENTICATION_BACKENDS += ['django.contrib.auth.backends.ModelBackend']
 
 RAVEN_CONFIG = {'dsn': os.environ.get('SENTRY_DSN', '')}
 

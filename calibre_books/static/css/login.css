@@ -1,3 +1,6 @@
+@import url(//fonts.googleapis.com/css?family=Limelight);
+@import url(//cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.2.1/bootstrap-social.min.css);
+
 html,
 body {
   background: url(../img/bg.jpg);
@@ -13,6 +16,11 @@ body {
   display:table;
   overflow:hidden;
   margin:0 auto;
+}
+
+#page h2 {
+ font-family: 'Limelight', cursive;
+ color: #ffffff;
 }
 
 *:first-child+html #page {position:relative;}/*ie7*/

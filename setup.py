@@ -30,6 +30,7 @@ setup(
         'whoosh==2.6.0',
         'django-debug-toolbar>=1.2.1',
         'unidecode>=0.04.16',
+        'python-social-auth==0.1.26',
     ],
     entry_points={
         'console_scripts': ['manage.py = calibre_books:manage']},

@@ -11,6 +11,8 @@ urlpatterns = patterns('',
     url(r'^', include('calibre_books.calibre.urls')),
     url(r'^', include('calibre_books.core.urls')),
 
+    url('', include('social.apps.django_app.urls', namespace='social')),
+
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout', kwargs={'next_page': settings.LOGIN_REDIRECT_URL}),
 
