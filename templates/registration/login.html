@@ -34,9 +34,8 @@
                             </p>
                             {% endif %}
                         </div>
-                        <hr>
                         {% endif %}
-                        <form action="" method="post">
+                        <form id='login-form' action="" method="post" class="collapse {% if request.POST or not backends.backends %}in{% endif %}">
                             {% csrf_token %}
                             {% bootstrap_form_errors form %}
                             {% bootstrap_messages %}
@@ -49,6 +48,13 @@
                             {% endbuttons %}
                         </form>
                     </div>
+                    {% if backends.backends %}
+                    <div class="col-sm-4 col-sm-offset-4 action">
+                        <a href='#' data-toggle="collapse" data-target="#login-form">
+                          <small>{% bootstrap_icon "lock" %} {% trans "Use password" %}</small>
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 
