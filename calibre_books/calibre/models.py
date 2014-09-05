@@ -32,6 +32,12 @@ class BookManager(models.Manager):
             kwargs['%s__value' % relation_name] = value
         return self.filter(**kwargs)
 
+    def for_user(self, user):
+        default_bookshelf = getattr(settings, 'DEFAULT_BOOKSHELF', None)
+        if not user.is_staff and default_bookshelf:
+            return self.by_column_value(default_bookshelf, value=True)
+        return self.filter()
+
 
 class Book(models.Model):
 

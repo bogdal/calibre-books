@@ -1,6 +1,6 @@
 import logging
 
-from django.conf import settings
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils.http import urlencode
 from django.views.generic import ListView, RedirectView
@@ -17,10 +17,7 @@ class BookListView(ListView):
     paginate_by = 18
 
     def get_queryset(self):
-        default_bookshelf = getattr(settings, 'DEFAULT_BOOKSHELF', None)
-        qs = super(BookListView, self).get_queryset()
-        if not self.request.user.is_staff and default_bookshelf:
-            qs = self.model.objects.by_column_value(default_bookshelf, value=True)
+        qs = self.model.objects.for_user(self.request.user)
         search_form = SearchForm(data=self.request.GET or None)
         if search_form.is_valid():
             qs = qs.filter(id__in=search_form.search().values_list('pk', flat=True)).order_by('-pubdate')
@@ -37,6 +34,8 @@ class BookListView(ListView):
 class DownloadView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
+        if not Book.objects.for_user(self.request.user).filter(data__id=self.kwargs.get('pk')).exists():
+            raise Http404
         book_file = get_object_or_404(Data, pk=self.kwargs.get('pk'))
         logger.info(u"Book '%s' has been downloaded by the user '%s'", book_file.book, self.request.user,
                     extra={'request': self.request})

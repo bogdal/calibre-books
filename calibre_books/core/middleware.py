@@ -14,7 +14,7 @@ class SocialAuthExceptionMiddleware(BaseSocialAuthExceptionMiddleware):
 
         message = None
         if isinstance(exception, (AuthForbidden, AuthFailed)):
-            message = _("Not so fast! Who are you?")
+            message = _("Sorry buddy. Looks like you're not on my list.")
         elif isinstance(exception, SocialAuthBaseException):
             message = self.get_message(request, exception)
 
