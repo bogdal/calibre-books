@@ -16,28 +16,10 @@
                     <div class="col-sm-4 col-sm-offset-4">
                         <h2>CalibreBooks</h2>
                     </div>
-                    <div class="col-sm-4 col-sm-offset-4 well text-center">
-                        {% if backends.backends %}
-                        <div class="form-group">
-                            {% if 'google-oauth2' in backends.backends %}
-                            <p>
-                                <a class="btn btn-social btn-google-plus" href="{% url 'social:begin' 'google-oauth2' %}">
-                                    <i class="fa fa-google-plus"></i> {% trans "Sign in with Google" %}
-                                </a>
-                            </p>
-                            {% endif %}
-                            {% if 'github-org' in backends.backends %}
-                            <p>
-                                <a class="btn btn-social btn-github" href="{% url 'social:begin' 'github-org' %}">
-                                    <i class="fa fa-github"></i> {% trans "Sign in with Github" %}
-                                </a>
-                            </p>
-                            {% endif %}
-                        </div>
-                        {% endif %}
+                    <div class="col-sm-4 col-sm-offset-4 well ">
                         {% bootstrap_form_errors form %}
                         {% bootstrap_messages %}
-                        <form id='login-form' action="" method="post" class="collapse {% if request.POST or not backends.backends %}in{% endif %}">
+                        <form id='login-form' action="" method="post">
                             {% csrf_token %}
                             {% bootstrap_field form.username show_label=False %}
                             {% bootstrap_field form.password show_label=False %}
@@ -49,11 +31,18 @@
                         </form>
                     </div>
                     {% if backends.backends %}
-                    <div class="col-sm-4 col-sm-offset-4 action">
-                        <a href='#' data-toggle="collapse" data-target="#login-form">
-                          <small>{% bootstrap_icon "lock" %} {% trans "Use password" %}</small>
-                        </a>
-                    </div>
+                        <div class="col-sm-12 text-center">
+                            {% if 'google-oauth2' in backends.backends %}
+                                <a class="btn btn-social btn-google-plus" href="{% url 'social:begin' 'google-oauth2' %}">
+                                    <i class="fa fa-google-plus"></i> {% trans "Sign in with Google" %}
+                                </a>
+                            {% endif %}
+                            {% if 'github-org' in backends.backends %}
+                                <a class="btn btn-social btn-github" href="{% url 'social:begin' 'github-org' %}">
+                                    <i class="fa fa-github"></i> {% trans "Sign in with Github" %}
+                                </a>
+                            {% endif %}
+                        </div>
                     {% endif %}
                 </div>
             </div>
