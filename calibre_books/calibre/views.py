@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class BookListView(ListView):
     model = Book
     template_name = 'calibre/list.html'
-    paginate_by = 12
+    paginate_by = 18
 
     def get_queryset(self):
         default_bookshelf = getattr(settings, 'DEFAULT_BOOKSHELF', None)

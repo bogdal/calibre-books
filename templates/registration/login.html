@@ -35,10 +35,10 @@
                             {% endif %}
                         </div>
                         {% endif %}
+                        {% bootstrap_form_errors form %}
+                        {% bootstrap_messages %}
                         <form id='login-form' action="" method="post" class="collapse {% if request.POST or not backends.backends %}in{% endif %}">
                             {% csrf_token %}
-                            {% bootstrap_form_errors form %}
-                            {% bootstrap_messages %}
                             {% bootstrap_field form.username show_label=False %}
                             {% bootstrap_field form.password show_label=False %}
                             {% buttons %}

@@ -3,27 +3,27 @@
 
 {% block content %}
 
-    <div class="container">
+    <div class="container book-list">
         <div class="row">
             {% for book in object_list %}
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <div class="well">
                         <img src='{{ book.cover_url }}' class="img-thumbnail">
-                        <h4>{{ book.title }}
+                        <h5>{{ book.title }}
                             <small>
                                 {% for author in book.authors.all %}
                                     <a href="{% url 'list' %}?q={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
                                 {% endfor %}
                                 {% if book.series %}<a href="{% url 'list' %}?q={{ book.series }}&series=1" class="label label-default">{% trans "Series" %}: {{ book.series }} ({{ book.series_index|roman_number }})</a>{% endif %}
                             </small>
-                        </h4>
+                        </h5>
                         {% for book_file in book.data.all %}
                             <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs" title="{% trans "File size" %}: {{ book_file.size|filesizeformat }}">{{ book_file.format }}</a>
                         {% endfor %}
 {#                        <a href="#" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-phone"></span> {% trans "Send to Kindle" %}</a>#}
                     </div>
                 </div>
-                {% if forloop.counter|divisibleby:4 %}
+                {% if forloop.counter|divisibleby:6 %}
                     <div class="clearfix"></div>
                 {% endif %}
             {% endfor %}

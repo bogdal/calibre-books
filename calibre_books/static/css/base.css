@@ -1,0 +1,9 @@
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+
+.book-list .well {
+    padding: 10px;
+}
+
+.book-list small {
+    font-size: 90%;
+}
