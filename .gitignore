@@ -57,3 +57,4 @@ docs/_build/
 db.sqlite3
 metadata.db
 media/*.jpg
+whoosh_index
