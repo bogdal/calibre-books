@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
-from social.apps.django_app.middleware import SocialAuthExceptionMiddleware as BaseSocialAuthExceptionMiddleware
-from social.exceptions import SocialAuthBaseException, AuthForbidden, AuthFailed
+from social.apps.django_app.middleware import (
+    SocialAuthExceptionMiddleware as BaseSocialAuthExceptionMiddleware)
+from social.exceptions import (SocialAuthBaseException, AuthForbidden,
+                               AuthFailed)
 
 
 class SocialAuthExceptionMiddleware(BaseSocialAuthExceptionMiddleware):

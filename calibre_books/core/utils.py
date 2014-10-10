@@ -11,15 +11,18 @@ class DropboxStorage(object):
     dropbox_cursor_key = 'dropbox_cursor'
 
     def __init__(self):
-        session = DropboxSession(settings.DROPBOX_CONSUMER_KEY, settings.DROPBOX_CONSUMER_SECRET,
+        session = DropboxSession(settings.DROPBOX_CONSUMER_KEY,
+                                 settings.DROPBOX_CONSUMER_SECRET,
                                  settings.DROPBOX_ACCESS_TYPE, locale=None)
-        session.set_token(settings.DROPBOX_ACCESS_TOKEN, settings.DROPBOX_ACCESS_TOKEN_SECRET)
+        session.set_token(settings.DROPBOX_ACCESS_TOKEN,
+                          settings.DROPBOX_ACCESS_TOKEN_SECRET)
         self.client = DropboxClient(session)
 
     def get_url(self, path, share=False):
         try:
             if share:
-                return self.client.share(path, short_url=False)['url'] + '?dl=1'
+                result = self.client.share(path, short_url=False)
+                return result['url'] + '?dl=1'
             return self.client.media(path).get('url')
         except ErrorResponse:
             pass
@@ -37,6 +40,7 @@ class DropboxStorage(object):
             f.write(calibre_db.read())
 
     def need_update(self):
-        delta = self.client.delta(cursor=cache.get(self.dropbox_cursor_key), path_prefix=self.calibre_db_path)
+        delta = self.client.delta(cursor=cache.get(self.dropbox_cursor_key),
+                                  path_prefix=self.calibre_db_path)
         cache.set(self.dropbox_cursor_key, delta['cursor'], timeout=None)
         return len(delta['entries']) > 0

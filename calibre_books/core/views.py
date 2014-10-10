@@ -19,10 +19,12 @@ class DropboxWebhookView(View):
 
     def post(self, *args, **kwargs):
         signature = self.request.META.get('HTTP_X_DROPBOX_SIGNATURE')
-        if signature != hmac.new(settings.DROPBOX_CONSUMER_SECRET, self.request.body, sha256).hexdigest():
+        if signature != hmac.new(settings.DROPBOX_CONSUMER_SECRET,
+                                 self.request.body, sha256).hexdigest():
             return HttpResponseForbidden()
 
         threading.Thread(target=synchronize_calibre).start()
-        logger.info(u"Synchronization has been started", extra={'request': self.request})
+        logger.info(u"Synchronization has been started",
+                    extra={'request': self.request})
 
         return HttpResponse('')

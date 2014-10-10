@@ -33,5 +33,5 @@ setup(
         'python-social-auth==0.1.26',
     ],
     entry_points={
-        'console_scripts': ['manage.py = calibre_books:manage']},
+        'console_scripts': ['calibre_books = calibre_books:manage']},
 )

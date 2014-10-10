@@ -20,23 +20,27 @@ class BookListView(ListView):
         qs = self.model.objects.for_user(self.request.user)
         search_form = SearchForm(data=self.request.GET or None)
         if search_form.is_valid():
-            qs = qs.filter(id__in=search_form.search().values_list('pk', flat=True)).order_by('-pubdate')
+            ids = search_form.search().values_list('pk', flat=True)
+            qs = qs.filter(id__in=ids).order_by('-pubdate')
         if 'series' in self.request.GET:
             qs = qs.order_by('series_index')
         return qs
 
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)
-        context['filters'] = urlencode({'q': self.request.GET.get('q', '')}, doseq=1)
+        context['filters'] = urlencode({'q': self.request.GET.get('q', '')},
+                                       doseq=1)
         return context
 
 
 class DownloadView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        if not Book.objects.for_user(self.request.user).filter(data__id=self.kwargs.get('pk')).exists():
+        if not Book.objects.for_user(self.request.user).filter(
+                data__id=self.kwargs.get('pk')).exists():
             raise Http404
         book_file = get_object_or_404(Data, pk=self.kwargs.get('pk'))
-        logger.info(u"Book '%s' has been downloaded by the user '%s'", book_file.book, self.request.user,
+        logger.info(u"Book '%s' has been downloaded by the user '%s'",
+                    book_file.book, self.request.user,
                     extra={'request': self.request})
         return book_file.download_url

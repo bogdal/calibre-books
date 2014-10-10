@@ -20,8 +20,10 @@ class BookManager(models.Manager):
 
     def get_queryset(self):
         qs = super(BookManager, self).get_queryset()
-        return (qs.prefetch_related('book_series', 'book_series__series', 'data', 'authors')
-                .exclude(publishers__name='calibre').exclude(tags__name__in=['Clippings']))
+        return (qs.prefetch_related('book_series', 'book_series__series',
+                                    'data', 'authors')
+                .exclude(publishers__name='calibre')
+                .exclude(tags__name__in=['Clippings']))
 
     def by_column_value(self, label=None, value=None):
         relation_name = 'custom_column_%s' % label
@@ -106,13 +108,15 @@ class Data(models.Model):
 
     @property
     def download_url(self):
-        path = '/%s/%s/%s.%s' % (settings.DROPBOX_CALIBRE_DIR, self.book.path, self.name, self.format.lower())
+        path = '/%s/%s/%s.%s' % (settings.DROPBOX_CALIBRE_DIR, self.book.path,
+                                 self.name, self.format.lower())
         return DropboxStorage().get_url(path)
 
 
 class PluginData(models.Model):
 
-    book = models.ForeignKey(Book, db_column='book', related_name='plugin_data')
+    book = models.ForeignKey(Book, db_column='book',
+                             related_name='plugin_data')
     name = models.CharField(max_length=255)
     value = models.CharField(max_length=255, db_column='val')
 
@@ -122,7 +126,8 @@ class PluginData(models.Model):
 
 class Identifier(models.Model):
 
-    book = models.ForeignKey(Book, db_column='book', related_name='identifiers')
+    book = models.ForeignKey(Book, db_column='book',
+                             related_name='identifiers')
     type = models.CharField(max_length=255)
     value = models.CharField(max_length=255, db_column='val')
 
@@ -184,7 +189,8 @@ class Series(models.Model):
 
 class SeriesBook(models.Model):
 
-    book = models.ForeignKey(Book, db_column='book', related_name='book_series', unique=True)
+    book = models.ForeignKey(Book, db_column='book',
+                             related_name='book_series', unique=True)
     series = models.ForeignKey(Series, db_column='series')
 
     class Meta:
@@ -213,12 +219,15 @@ class CustomColumn(models.Model):
     def create_models(cls):
         for column in cls.objects.all():
             fields = {
-                'book': models.ForeignKey(Book, db_column='book', related_name='custom_column_%s' % column.label),
+                'book': models.ForeignKey(
+                    Book, db_column='book', related_name='custom_column_%s' %
+                                                         column.label),
                 'value':  models.BooleanField(),
                 'custom_column': column,
             }
             options = {'db_table': 'custom_column_%s' % column.id}
-            create_model('CustomColumn%s' % column.id, fields, options=options, module=__name__)
+            create_model('CustomColumn%s' % column.id, fields,
+                         options=options, module=__name__)
 
     class Meta:
         db_table = 'custom_columns'
