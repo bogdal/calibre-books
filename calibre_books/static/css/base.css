@@ -7,3 +7,12 @@
 .book-list small {
     font-size: 90%;
 }
+
+.navbar-nav>li>span {
+    padding: 15px 5px 15px 0;
+    display: block;
+}
+
+.navbar-nav>li>img {
+    padding-top: 5px;
+}

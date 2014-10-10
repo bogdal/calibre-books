@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
     'haystack',
     'social.apps.django_app.default',
+    'django_gravatar',
 ]
 
 if DEBUG:

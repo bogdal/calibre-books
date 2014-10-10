@@ -31,6 +31,7 @@ setup(
         'django-debug-toolbar>=1.2.1',
         'unidecode>=0.04.16',
         'python-social-auth==0.1.26',
+        'django-gravatar2==1.1.4',
     ],
     entry_points={
         'console_scripts': ['calibre_books = calibre_books:manage']},
