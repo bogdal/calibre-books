@@ -1,6 +1,11 @@
 import os
 import dj_database_url
 
+
+def env_list(variable, default=''):
+    return os.environ.get(variable, default).split()
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -10,9 +15,9 @@ DEBUG = bool(os.environ.get('DEBUG', False))
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split()
+ALLOWED_HOSTS = env_list('ALLOWED_HOSTS')
 
-INTERNAL_IPS = os.environ.get('INTERNAL_IPS', '127.0.0.1').split()
+INTERNAL_IPS = env_list('INTERNAL_IPS', '127.0.0.1')
 
 # Application definition
 
@@ -151,8 +156,8 @@ SOCIAL_AUTH_GITHUB_ORG_KEY = os.environ.get('GITHUB_KEY')
 SOCIAL_AUTH_GITHUB_ORG_SECRET = os.environ.get('GITHUB_SECRET')
 SOCIAL_AUTH_GITHUB_ORG_SCOPE = ['user:email', 'read:org']
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = os.environ.get('GOOGLE_WHITELISTED_DOMAINS', '').split()
-SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = os.environ.get('GOOGLE_WHITELISTED_EMAILS', '').split()
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = env_list('GOOGLE_WHITELISTED_DOMAINS')
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = env_list('GOOGLE_WHITELISTED_EMAILS')
 SOCIAL_AUTH_GITHUB_ORG_NAME = os.environ.get('GITHUB_ORG_NAME', '')
 
 AUTHENTICATION_BACKENDS = []
@@ -207,3 +212,6 @@ HAYSTACK_CONNECTIONS = {
 }
 
 DEFAULT_BOOKSHELF = os.environ.get('DEFAULT_BOOKSHELF')
+
+# :address@domain.com: bookshelf:email@address.com bookshelf2:@domain.com
+BOOKSHELVES_USERS = env_list('BOOKSHELVES_USERS')

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models, OperationalError
 from calibre_books.core.utils import DropboxStorage
 
-from .utils import create_model
+from .utils import create_model, get_user_bookshelf
 
 
 class Author(models.Model):
@@ -35,9 +35,9 @@ class BookManager(models.Manager):
         return self.filter(**kwargs)
 
     def for_user(self, user):
-        default_bookshelf = getattr(settings, 'DEFAULT_BOOKSHELF', None)
-        if not user.is_staff and default_bookshelf:
-            return self.by_column_value(default_bookshelf, value=True)
+        bookshelf = get_user_bookshelf(user)
+        if not user.is_staff and bookshelf:
+            return self.by_column_value(bookshelf, value=True)
         return self.filter()
 
 
