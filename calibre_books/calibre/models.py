@@ -209,11 +209,11 @@ class CustomColumn(models.Model):
     label = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     data_type = models.CharField(max_length=255, db_column='datatype')
-    mark_for_delete = models.BooleanField()
-    editable = models.BooleanField()
+    mark_for_delete = models.BooleanField(default=False)
+    editable = models.BooleanField(default=False)
     display = models.CharField(max_length=255)
-    is_multiple = models.BooleanField()
-    normalized = models.BooleanField()
+    is_multiple = models.BooleanField(default=False)
+    normalized = models.BooleanField(default=False)
 
     @classmethod
     def create_models(cls):
@@ -222,7 +222,7 @@ class CustomColumn(models.Model):
                 'book': models.ForeignKey(
                     Book, db_column='book', related_name='custom_column_%s' %
                                                          column.label),
-                'value':  models.BooleanField(),
+                'value':  models.BooleanField(default=False),
                 'custom_column': column,
             }
             options = {'db_table': 'custom_column_%s' % column.id}
