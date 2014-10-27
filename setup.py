@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 import os
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'calibre_books.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'calibre_books.test_settings')
 
 setup(
     name='calibre-books',
@@ -33,6 +33,7 @@ setup(
         'python-social-auth==0.1.26',
         'django-gravatar2==1.1.4',
     ],
+    test_suite='calibre_books.tests.suite',
     entry_points={
         'console_scripts': ['calibre_books = calibre_books:manage']},
 )
