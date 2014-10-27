@@ -15,7 +15,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'Django>=1.6',
+        'Django>=1.7',
         'django-bootstrap3>=4.8.2',
         'dropbox==2.1.0',
         'dj_database_url>=0.2.2',
