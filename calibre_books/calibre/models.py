@@ -4,6 +4,8 @@ from calibre_books.core.utils import DropboxStorage
 
 from .utils import create_model, get_user_bookshelf
 
+GENRE_TAG = 'genre'
+
 
 class Author(models.Model):
 
@@ -70,6 +72,13 @@ class Book(models.Model):
     @property
     def cover_url(self):
         return "%s%s.jpg" % (settings.MEDIA_URL, self.uuid)
+
+    @property
+    def genres(self):
+        if hasattr(self, 'custom_column_%s' % GENRE_TAG):
+            return self.custom_column_genre.all().values_list(
+                'value__value', flat=True)
+        return []
 
     class Meta:
         db_table = 'books'
@@ -218,16 +227,32 @@ class CustomColumn(models.Model):
     @classmethod
     def create_models(cls):
         for column in cls.objects.all():
+            book_field = models.ForeignKey(
+                Book, db_column='book', related_name='custom_column_%s' %
+                                                     column.label)
+            if column.data_type == 'bool':
+                model_field = models.BooleanField(default=False)
+            else:
+                model_field = models.CharField(max_length=255)
             fields = {
-                'book': models.ForeignKey(
-                    Book, db_column='book', related_name='custom_column_%s' %
-                                                         column.label),
-                'value':  models.BooleanField(default=False),
+                'value':  model_field,
                 'custom_column': column,
             }
+            if not column.normalized:
+                fields.update({'book': book_field})
             options = {'db_table': 'custom_column_%s' % column.id}
             create_model('CustomColumn%s' % column.id, fields,
                          options=options, module=__name__)
+            if column.normalized:
+                fields = {
+                    'book': book_field,
+                    'value': models.ForeignKey('CustomColumn%s' % column.id,
+                                               db_column='value')
+                }
+                options = {
+                    'db_table': 'books_custom_column_%s_link' % column.id}
+                create_model('BookCustomColumn%s' % column.id, fields,
+                             options=options, module=__name__)
 
     class Meta:
         db_table = 'custom_columns'
