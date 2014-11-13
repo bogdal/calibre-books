@@ -1,0 +1,10 @@
+{% load genres %}
+
+{% for genre, child in genres.iteritems %}
+    <li {% if request.GET.g == prefix|add:genre %}class='active'{% endif %}>
+        <a href='{% if child %}#{% else %}?g={% if prefix %}{{ prefix }}{% endif %}{{ genre }}&q={{ request.GET.q }}{% endif %}'><span class="glyphicon glyphicon-chevron-right"></span> {{ genre }}</a>
+        {% if child %}
+            <ul class="list-unstyled">{% genres child prefix|add:genre %}</ul>
+        {% endif %}
+    </li>
+{% endfor %}

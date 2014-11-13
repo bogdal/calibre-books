@@ -28,7 +28,8 @@ class BookListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)
-        context['filters'] = urlencode({'q': self.request.GET.get('q', '')},
+        context['filters'] = urlencode({'q': self.request.GET.get('q', ''),
+                                        'g': self.request.GET.get('g')},
                                        doseq=1)
         return context
 

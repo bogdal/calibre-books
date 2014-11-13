@@ -24,3 +24,16 @@ def get_user_bookshelf(user):
         if '@' in address and user.email.endswith(address):
             return bookshelf
     return settings.DEFAULT_BOOKSHELF
+
+
+def get_genres_as_tree(genres, tree=None):
+    tree = tree or {}
+    for genre in genres:
+        leaves = genre.split('.')
+        if len(leaves):
+            main = leaves.pop(0)
+            tree.setdefault(main, {})
+            if len(leaves):
+                tree[main] = (get_genres_as_tree(
+                    ['.'.join(leaves)], tree[main]))
+    return tree

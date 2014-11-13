@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.test.utils import override_settings
 
-from .utils import get_user_bookshelf
+from .utils import get_user_bookshelf, get_genres_as_tree
 
 
 class BookshelfTest(TestCase):
@@ -31,3 +31,22 @@ class BookshelfTest(TestCase):
             get_user_bookshelf(self.user2)]
 
         self.assertEqual(bookshelves, expected_bookshelves)
+
+
+class GenresTest(TestCase):
+
+    def test_genre_tree(self):
+
+        genres = ['a1.b1', 'a1.b2', 'a2', 'a1.b3', 'a1.b2.c1']
+
+        structure = get_genres_as_tree(genres)
+
+        expected = {
+            'a1': {
+                'b1': {},
+                'b2': {'c1': {}},
+                'b3': {}},
+            'a2': {}
+        }
+
+        self.assertEqual(structure, expected)

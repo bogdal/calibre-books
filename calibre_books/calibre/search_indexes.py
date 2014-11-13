@@ -6,12 +6,16 @@ from .models import Book
 
 class BookIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=False)
+    genres = indexes.MultiValueField(null=True)
 
     def get_model(self):
         return Book
 
     def index_queryset(self, using=None):
         return self.get_model().objects.all()
+
+    def prepare_genres(self, obj):
+        return [g.value.value for g in obj.genres]
 
     def prepare(self, obj):
         self.prepared_data = super(BookIndex, self).prepare(obj)
@@ -23,5 +27,6 @@ class BookIndex(indexes.SearchIndex, indexes.Indexable):
         text.extend(set(authors))
         text.extend(obj.tags.all())
         text.extend(obj.publishers.all())
+        text.extend(obj.genres)
         self.prepared_data['text'] = u' '.join(map(unicode, text))
         return self.prepared_data

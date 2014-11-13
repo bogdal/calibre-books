@@ -1,5 +1,5 @@
 {% extends 'bootstrap3/bootstrap3.html' %}
-{% load i18n bootstrap3 static gravatar %}
+{% load i18n bootstrap3 static gravatar genres %}
 
 {% block bootstrap3_title %}
     {% trans "Calibre Books" %}
@@ -8,10 +8,37 @@
 {% block bootstrap3_extra_head %}
     <link rel="stylesheet" href="">
     <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <link href="{% static "css/sidebar.css" %}" rel="stylesheet">
     <link rel="Shortcut icon" href="{% static "img/favicon.jpg" %}" />
 {% endblock %}
 
+{% block bootstrap3_extra_script %}
+    {{ block.super }}
+    <script>
+        $("#genre-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+{% endblock %}
+
 {% block bootstrap3_content %}
+
+<div id="wrapper" class="toggled">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    <span class="glyphicon glyphicon-book"></span> {% trans "Genres" %}
+                </a>
+            </li>
+            <li><a href='?g=&q={{ request.GET.q }}'><span class="glyphicon glyphicon-chevron-right"></span> {% trans "All" %}</a></li>
+            {% genres %}
+        </ul>
+    </div>
+
+    <a href="#genre-toggle" class="btn btn-default" id="genre-toggle"><span class="glyphicon glyphicon-cog"></span><br>{% trans "G" context 'genre' %} </a>
+
     {% block main-nav %}
     <div class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container">
@@ -31,6 +58,7 @@
           <form class="navbar-form navbar-left" role="form" action="{% url 'list' %}">
             <div class="form-group">
               <input type="text" name='q' value='{{ request.GET.q }}' placeholder="{% trans "Search" %}" class="form-control">
+              <input type="hidden" name='g' value='{{ request.GET.g }}'>
             </div>
             <button type="submit" class="btn btn-success">{% bootstrap_icon "search" %}</button>
           </form>
@@ -50,4 +78,5 @@
     {% endblock %}
 
     {% block content %}{% endblock %}
+</div>
 {% endblock %}

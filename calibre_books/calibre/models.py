@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models, OperationalError
 from calibre_books.core.utils import DropboxStorage
 
-from .utils import create_model, get_user_bookshelf
+from .utils import create_model, get_user_bookshelf, get_genres_as_tree
 
 GENRE_TAG = 'genre'
 
@@ -75,10 +75,18 @@ class Book(models.Model):
 
     @property
     def genres(self):
-        if hasattr(self, 'custom_column_%s' % GENRE_TAG):
-            return self.custom_column_genre.all().values_list(
-                'value__value', flat=True)
+        genre_column = 'custom_column_%s' % GENRE_TAG
+        if hasattr(self, genre_column):
+            return getattr(self, genre_column).all()
         return []
+
+    @classmethod
+    def get_genres(cls, user):
+        genre_column = 'custom_column_%s' % GENRE_TAG
+        kwargs = {'%s__value__isnull' % genre_column: False}
+        genres = set(cls.objects.for_user(user).filter(**kwargs).values_list(
+            '%s__value__value' % genre_column, flat=True))
+        return get_genres_as_tree(genres)
 
     class Meta:
         db_table = 'books'
@@ -247,8 +255,7 @@ class CustomColumn(models.Model):
                 fields = {
                     'book': book_field,
                     'value': models.ForeignKey('CustomColumn%s' % column.id,
-                                               db_column='value')
-                }
+                                               db_column='value')}
                 options = {
                     'db_table': 'books_custom_column_%s_link' % column.id}
                 create_model('BookCustomColumn%s' % column.id, fields,
