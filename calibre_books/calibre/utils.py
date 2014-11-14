@@ -1,3 +1,4 @@
+import collections
 from django.conf import settings
 from django.db import models
 
@@ -36,4 +37,4 @@ def get_genres_as_tree(genres, tree=None):
             if len(leaves):
                 tree[main] = (get_genres_as_tree(
                     ['.'.join(leaves)], tree[main]))
-    return tree
+    return collections.OrderedDict(sorted(tree.iteritems()))
