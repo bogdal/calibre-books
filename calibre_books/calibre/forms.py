@@ -27,5 +27,4 @@ class SearchForm(BaseSearchForm):
     def clean(self):
         if not any([self.cleaned_data.get('q'), self.cleaned_data.get('g')]):
             raise forms.ValidationError('Missing parameters')
-
         return self.cleaned_data

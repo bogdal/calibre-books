@@ -77,8 +77,13 @@ class Book(models.Model):
     def genres(self):
         genre_column = 'custom_column_%s' % GENRE_TAG
         if hasattr(self, genre_column):
-            return getattr(self, genre_column).all()
+            return getattr(self, genre_column).values_list(
+                'value__value', flat=True)
         return []
+
+    @classmethod
+    def has_genres(cls):
+        return CustomColumn.objects.filter(label=GENRE_TAG).exists()
 
     @classmethod
     def get_genres(cls, user):

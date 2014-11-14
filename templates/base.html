@@ -15,7 +15,7 @@
 {% block bootstrap3_extra_script %}
     {{ block.super }}
     <script>
-        $("#genre-toggle").click(function(e) {
+        $(".genre-toggle").click(function(e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
@@ -25,19 +25,23 @@
 {% block bootstrap3_content %}
 
 <div id="wrapper" class="toggled">
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-            <li class="sidebar-brand">
-                <a href="#">
-                    <span class="glyphicon glyphicon-book"></span> {% trans "Genres" %}
-                </a>
-            </li>
-            <li><a href='?g=&q={{ request.GET.q }}'><span class="glyphicon glyphicon-chevron-right"></span> {% trans "All" %}</a></li>
-            {% genres %}
-        </ul>
-    </div>
 
-    <a href="#genre-toggle" class="btn btn-default" id="genre-toggle"><span class="glyphicon glyphicon-cog"></span><br>{% trans "G" context 'genre' %} </a>
+    {% book_has_genres as show_genres %}
+    {% if show_genres %}
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        <span class="glyphicon glyphicon-book"></span> {% trans "Genres" %}
+                    </a>
+                </li>
+                <li><a href='?g=&q={{ request.GET.q }}'><span class="glyphicon glyphicon-chevron-right"></span> {% trans "All" %}</a></li>
+                {% genres %}
+            </ul>
+        </div>
+
+        <a href="#genre-toggle" class="btn btn-default genre-toggle" id="genre-toggle"><span class="glyphicon glyphicon-cog"></span><br>{% trans "G" context 'genre' %} </a>
+    {% endif %}
 
     {% block main-nav %}
     <div class="navbar navbar-default navbar-static-top" role="navigation">

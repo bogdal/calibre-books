@@ -50,3 +50,7 @@ class GenresTest(TestCase):
         }
 
         self.assertEqual(structure, expected)
+
+    def test_empty_tree(self):
+
+        self.assertEqual(get_genres_as_tree([]), {})

@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
 {% load i18n bootstrap3 roman_number %}
+{% load genres %}
 
 {% block content %}
 
     <div class="container book-list">
+
+        {% if request.GET.g %}
+            <ol class="breadcrumb">
+              <li><a href="/">{% trans "Home" %}</a></li>
+              {% for genre in request.GET.g|split %}
+                <li class="genre-toggle"><a href="#">{{ genre }}</a></li>
+              {% endfor %}
+            </ol>
+        {% endif %}
+
         <div class="row">
             {% for book in object_list %}
                 <div class="col-sm-2">
