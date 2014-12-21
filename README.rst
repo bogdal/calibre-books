@@ -23,11 +23,11 @@ Usage
     
 4. Integration with `dropbox` service::
 
-  Get your access token using the following command::
+Get your access token using the following command::
   
     python manage.py get_dropbox_token
 
-  Configure your `dropbox` application::
+Configure your `dropbox` application::
 
     export DROPBOX_CONSUMER_KEY=''
     export DROPBOX_CONSUMER_SECRET=''
@@ -37,9 +37,9 @@ Usage
     # default is standard calibre directory `CalibreLibrary`
     export DROPBOX_CALIBRE_DIR='' 
 
-  Go to the dropbox app console_ and set your webook url `https://your-domain/dropbox-webhook/`
+Go to the dropbox app console_ and set your webook url `https://your-domain/dropbox-webhook/`
   
-  .. _console: https://www.dropbox.com/developers/apps/info/
+.. _console: https://www.dropbox.com/developers/apps/info/
   
 5. Synchronize `calibre` data::
 
