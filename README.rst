@@ -1,29 +1,32 @@
 Calibre Books
 =============
 
-Calibre web server based on the data library located on Dropbox.
+Calibre web server based on the library data located on Dropbox.
 
 
 Usage
 -----
 
 
-1. Install the project in development mode::
+1. Install the project in development mode
+::
   
     python setup.py develop
     
-2. Set your ``SECRET_KEY`` in the environment variable::
+2. Set your ``SECRET_KEY`` in the environment variable
+::
 
     export SECRET_KEY=''
 
-3. Prepare the database::
+3. Prepare the database
+::
 
     python manage.py syncdb
-    
-    
-4. Integration with `dropbox` service::
 
-Get your access token using the following command::
+4. Integration with `dropbox` service
+
+Get your access token using the following command
+::
   
     python manage.py get_dropbox_token
 
@@ -41,11 +44,10 @@ Go to the dropbox app console_ and set your webook url `https://your-domain/drop
   
 .. _console: https://www.dropbox.com/developers/apps/info/
   
-5. Synchronize `calibre` data::
+5. Synchronize `calibre` data
+::
 
     python manage.py synchronize
-    
 
-  
-   
+Each time when you change something in the `Calibre` application, `Dropbox` will send callback to synchronize data.
   
