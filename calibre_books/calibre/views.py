@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils.http import urlencode
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 class BookListView(ListView):
     model = Book
     template_name = 'calibre/list.html'
-    paginate_by = 24
+    paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self):
         qs = self.model.objects.for_user(self.request.user)
