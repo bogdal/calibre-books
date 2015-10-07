@@ -19,7 +19,7 @@ class BookListView(ListView):
 
     def get_queryset(self):
         qs = self.model.objects.for_user(self.request.user)
-        qs = qs.prefetch_related('comments')
+        qs = qs.prefetch_related('comments', 'identifiers')
         search_form = SearchForm(data=self.request.GET or None)
         if search_form.is_valid():
             ids = search_form.search().values_list('pk', flat=True)

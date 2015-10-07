@@ -98,6 +98,11 @@ class Book(models.Model):
         if comments:
             return comments[0]
 
+    def get_goodreads_url(self):
+        for identifier in self.identifiers.all():
+            if identifier.type == 'goodreads':
+                return 'https://www.goodreads.com/book/show/%s' % identifier.value
+
     class Meta:
         db_table = 'books'
         ordering = ('-timestamp',)

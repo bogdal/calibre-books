@@ -50,6 +50,13 @@
                                         {{ description.text|safe }}
                                     </div>
                                     <div class="modal-footer">
+                                        {% with goodreads_url=book.get_goodreads_url %}
+                                            <div class="pull-left">
+                                                {% if goodreads_url %}
+                                                    <a href="{{ goodreads_url }}">Goodreads</a>
+                                                {% endif %}
+                                            </div>
+                                        {% endwith %}
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
