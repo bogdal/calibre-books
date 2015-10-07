@@ -14,10 +14,11 @@ logger = logging.getLogger(__name__)
 class BookListView(ListView):
     model = Book
     template_name = 'calibre/list.html'
-    paginate_by = 18
+    paginate_by = 24
 
     def get_queryset(self):
         qs = self.model.objects.for_user(self.request.user)
+        qs = qs.prefetch_related('comments')
         search_form = SearchForm(data=self.request.GET or None)
         if search_form.is_valid():
             ids = search_form.search().values_list('pk', flat=True)

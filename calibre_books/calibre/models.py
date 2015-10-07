@@ -93,6 +93,11 @@ class Book(models.Model):
             '%s__value__value' % genre_column, flat=True))
         return get_genres_as_tree(genres)
 
+    def get_description(self):
+        comments = self.comments.all()
+        if comments:
+            return comments[0]
+
     class Meta:
         db_table = 'books'
         ordering = ('-timestamp',)
@@ -105,6 +110,15 @@ class AuthorBook(models.Model):
 
     class Meta:
         db_table = 'books_authors_link'
+
+
+class Comment(models.Model):
+
+    book = models.ForeignKey(Book, db_column='book', related_name='comments')
+    text = models.TextField()
+
+    class Meta:
+        db_table = 'comments'
 
 
 class Data(models.Model):
