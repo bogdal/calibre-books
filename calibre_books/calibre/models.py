@@ -98,11 +98,6 @@ class Book(models.Model):
         if comments:
             return comments[0]
 
-    def get_goodreads_url(self):
-        for identifier in self.identifiers.all():
-            if identifier.type == 'goodreads':
-                return 'https://www.goodreads.com/book/show/%s' % identifier.value
-
     class Meta:
         db_table = 'books'
         ordering = ('-timestamp',)
@@ -167,6 +162,12 @@ class PluginData(models.Model):
 
 class Identifier(models.Model):
 
+    urls = {
+        'amazon': 'http://amzn.com/%s',
+        'google': 'http://books.google.com/books?id=%s',
+        'goodreads': 'https://www.goodreads.com/book/show/%s',
+        'isbn': 'http://www.worldcat.org/isbn/%s'}
+
     book = models.ForeignKey(Book, db_column='book',
                              related_name='identifiers')
     type = models.CharField(max_length=255)
@@ -174,6 +175,10 @@ class Identifier(models.Model):
 
     class Meta:
         db_table = 'identifiers'
+
+    def get_url(self):
+        if self.type in self.urls:
+            return self.urls[self.type] % self.value
 
 
 class Publisher(models.Model):
