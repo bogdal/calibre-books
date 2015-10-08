@@ -19,7 +19,7 @@
             {% for book in object_list %}
                 <div class="col-sm-2">
                     <div class="well">
-                        <img src='{{ book.cover_url }}' class="img-thumbnail">
+                        <a href="#" data-toggle="modal" data-target="#book-{{ book.pk }}"><img src='{{ book.cover_url }}' class="img-thumbnail"></a>
                         <h5>{{ book.title }}
                             <small>
                                 {% for author in book.authors.all %}
@@ -37,6 +37,33 @@
                 {% if forloop.counter|divisibleby:6 %}
                     <div class="clearfix"></div>
                 {% endif %}
+                {% with description=book.get_description %}
+                    {% if description %}
+                        <div class="modal fade" id="book-{{ book.pk }}" tabindex="-1" role="dialog" aria-labelledby="book-description">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">{{ book.title }}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ description.text|safe }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="pull-left">
+                                            {% for identifier in book.identifiers.all %}
+                                                {% if identifier.get_url %}
+                                                    <a target="_blank" href="{{ identifier.get_url }}">{{ identifier.type|title }}</a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endwith %}
             {% endfor %}
         </div>
 
