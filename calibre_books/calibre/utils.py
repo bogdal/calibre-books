@@ -8,7 +8,7 @@ def create_model(name, fields=None, module='', options=None):
         pass
 
     if options is not None:
-        for key, value in options.iteritems():
+        for key, value in options.items():
             setattr(Meta, key, value)
 
     attrs = {'__module__': module, 'Meta': Meta}
@@ -37,4 +37,4 @@ def get_genres_as_tree(genres, tree=None):
             if len(leaves):
                 tree[main] = (get_genres_as_tree(
                     ['.'.join(leaves)], tree[main]))
-    return collections.OrderedDict(sorted(tree.iteritems()))
+    return collections.OrderedDict(sorted(tree.items()))

@@ -25,7 +25,7 @@ setup(
         'dj-static==0.0.6',
         'django-sslify==0.2.3',
         'raven==5.0.0',
-        'python-memcached==1.53',
+        'python-memcached==1.57',
         'django-haystack==2.4.0',
         'whoosh==2.6.0',
         'django-debug-toolbar>=1.2.1',
