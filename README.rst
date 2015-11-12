@@ -21,7 +21,7 @@ Usage
 3. Prepare the database
 ::
 
-    python manage.py syncdb
+    python manage.py migrate
 
 4. Integration with `dropbox` service
 
