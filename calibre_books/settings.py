@@ -69,6 +69,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "social.apps.django_app.context_processors.backends",
     "social.apps.django_app.context_processors.login_redirect",
+    "calibre_books.core.context_processors.github_corner_url",
+    "calibre_books.core.context_processors.google_analytics",
 )
 
 TEMPLATE_DIRS = [
@@ -211,6 +213,10 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
     },
 }
+
+GITHUB_CORNER_URL = os.environ.get('GITHUB_CORNER_URL')
+
+GOOGLE_ANALYTICS = os.environ.get('GOOGLE_ANALYTICS')
 
 DEFAULT_BOOKSHELF = os.environ.get('DEFAULT_BOOKSHELF')
 
