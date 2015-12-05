@@ -26,46 +26,44 @@
                     <div class="clearfix"></div>
                 {% endif %}
                 {% with description=book.get_description %}
-                    {% if description %}
-                        <div class="modal fade" id="book-{{ book.pk }}" tabindex="-1" role="dialog" aria-labelledby="book-description">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <div class="modal-title row">
-                                            <div class="col-sm-3">
-                                                <img src='{{ book.cover_url }}' class="img-thumbnail">
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <h4>{{ book.title }}</h4>
-                                                {% for author in book.authors.all %}
-                                                    <a href="{% url 'list' %}?q={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                    <div class="modal fade" id="book-{{ book.pk }}" tabindex="-1" role="dialog" aria-labelledby="book-description">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <div class="modal-title row">
+                                        <div class="col-sm-3">
+                                            <img src='{{ book.cover_url }}' class="img-thumbnail">
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <h4>{{ book.title }}</h4>
+                                            {% for author in book.authors.all %}
+                                                <a href="{% url 'list' %}?q={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                                            {% endfor %}
+                                            <p>
+                                                {% for identifier in book.identifiers.all %}
+                                                    {% if identifier.get_url %}
+                                                        <a target="_blank" class="label label-default" href="{{ identifier.get_url }}">{{ identifier.type|title }}</a>
+                                                    {% endif %}
                                                 {% endfor %}
-                                                <p>
-                                                    {% for identifier in book.identifiers.all %}
-                                                        {% if identifier.get_url %}
-                                                            <a target="_blank" class="label label-default" href="{{ identifier.get_url }}">{{ identifier.type|title }}</a>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </p>
-                                                <p>
-                                                    {% for book_file in book.data.all %}
-                                                        <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs" title="{% trans "File size" %}: {{ book_file.size|filesizeformat }}">{{ book_file.format }}</a>
-                                                    {% endfor %}
-                                                </p>
-                                            </div>
+                                            </p>
+                                            <p>
+                                                {% for book_file in book.data.all %}
+                                                    <a href="{% url 'download' book_file.id %}" class="btn btn-primary btn-xs" title="{% trans "File size" %}: {{ book_file.size|filesizeformat }}">{{ book_file.format }}</a>
+                                                {% endfor %}
+                                            </p>
                                         </div>
                                     </div>
-                                    <div class="modal-body">
-                                        {{ description.text|safe }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    {{ description.text|safe }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
+                    </div>
                 {% endwith %}
             {% endfor %}
         </div>
