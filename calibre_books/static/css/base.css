@@ -1,7 +1,14 @@
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 
-.book-list .well {
-    padding: 10px;
+.book-list .thumbnail {
+    padding: 0;
+    border: none;
+    box-shadow: 0 0 20px gray;
+}
+
+.book-list .thumbnail:hover {
+    padding: 0;
+    box-shadow: 0 0 20px black;
 }
 
 .book-list small {

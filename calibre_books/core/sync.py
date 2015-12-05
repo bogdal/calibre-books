@@ -19,7 +19,7 @@ def synchronize_calibre(force_update=False):
             thumb_path = "%s/%s.jpg" % (settings.MEDIA_ROOT, book.uuid)
 
             if not os.path.exists(thumb_path):
-                cover = storage.client.thumbnail(cover_path)
+                cover = storage.client.thumbnail(cover_path, size='l')
                 if cover:
                     with open(thumb_path, 'wb') as f:
                         f.write(cover.read())
