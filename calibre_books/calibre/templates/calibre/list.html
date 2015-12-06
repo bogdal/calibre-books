@@ -41,6 +41,9 @@
                                                 <a href="{% url 'list' %}?q={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
                                             {% endfor %}
                                             <p>
+                                                {% if book.series %}<a href="{% url 'list' %}?q={{ book.series }}&series=1" class="label label-info">{% trans "Series" %}: {{ book.series }} ({{ book.series_index|roman_number }})</a>{% endif %}
+                                            </p>
+                                            <p>
                                                 {% for identifier in book.identifiers.all %}
                                                     {% if identifier.get_url %}
                                                         <a target="_blank" class="label label-default" href="{{ identifier.get_url }}">{{ identifier.type|title }}</a>
