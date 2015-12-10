@@ -12,7 +12,8 @@ class BookIndex(indexes.SearchIndex, indexes.Indexable):
         return Book
 
     def index_queryset(self, using=None):
-        return self.get_model().objects.all()
+        return self.get_model().objects.prefetch_related(
+            'authors', 'comments', 'identifiers', 'languages')
 
     def prepare_genres(self, obj):
         return ','.join(obj.genres) or None
@@ -27,5 +28,6 @@ class BookIndex(indexes.SearchIndex, indexes.Indexable):
         text.extend(set(authors))
         text.extend(obj.tags.all())
         text.extend(obj.publishers.all())
+        text.extend(['lang:%s' % l.lang_code for l in obj.languages.all()])
         self.prepared_data['text'] = u' '.join(map(unicode, text))
         return self.prepared_data

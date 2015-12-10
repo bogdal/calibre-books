@@ -149,6 +149,26 @@ class Data(models.Model):
         return DropboxStorage().get_url(path)
 
 
+class Language(models.Model):
+
+    lang_code = models.CharField(max_length=255, unique=True)
+
+    def __unicode__(self):
+        return self.lang_code
+
+    class Meta:
+        db_table = 'languages'
+
+
+class LanguageBook(models.Model):
+
+    book = models.ForeignKey(Book, db_column='book', related_name='languages')
+    lang_code = models.ForeignKey(Language, db_column='lang_code')
+
+    class Meta:
+        db_table = 'books_languages_link'
+
+
 class PluginData(models.Model):
 
     book = models.ForeignKey(Book, db_column='book',
