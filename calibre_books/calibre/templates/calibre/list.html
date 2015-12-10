@@ -62,6 +62,12 @@
                                     {{ description.text|safe }}
                                 </div>
                                 <div class="modal-footer">
+                                    <div class="pull-left">
+                                        Lang:
+                                        {% for lang in book.languages.all %}
+                                            <a class="label label-default" href="{% url 'list' %}?q=lang:{{ lang.lang_code }}">{{ lang.lang_code }}</a>
+                                        {% endfor %}
+                                    </div>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
