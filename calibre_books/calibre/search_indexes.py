@@ -29,5 +29,6 @@ class BookIndex(indexes.SearchIndex, indexes.Indexable):
         text.extend(obj.tags.all())
         text.extend(obj.publishers.all())
         text.extend(['lang:%s' % l.lang_code for l in obj.languages.all()])
+        text.extend(['publisher:%s' % p.name for p in obj.publishers.all()])
         self.prepared_data['text'] = u' '.join(map(unicode, text))
         return self.prepared_data
