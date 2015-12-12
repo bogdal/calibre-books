@@ -223,4 +223,4 @@ DEFAULT_BOOKSHELF = os.environ.get('DEFAULT_BOOKSHELF')
 # :address@domain.com: bookshelf:email@address.com bookshelf2:@domain.com
 BOOKSHELVES_USERS = env_list('BOOKSHELVES_USERS')
 
-PAGINATE_BY = int(os.environ.get('PAGINATE_BY', 24))
+PAGINATE_BY = int(os.environ.get('PAGINATE_BY', 54))
