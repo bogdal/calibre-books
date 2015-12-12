@@ -38,8 +38,13 @@
                                         <div class="col-sm-9">
                                             <h4>{{ book.title }}</h4>
                                             {% for author in book.authors.all %}
-                                                <a href="{% url 'list' %}?q={{ author }}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+                                                <a href="{% url 'list' %}?q={{ author }}" title="{% blocktrans %}Author: {{ author }}{% endblocktrans %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
                                             {% endfor %}
+                                            <p>
+                                                {% for publisher in book.publishers.all %}
+                                                    <a href="{% url 'list' %}?q=publisher:{{ publisher.name }}" title="{% blocktrans %}Publisher: {{ publisher }}{% endblocktrans %}">{{ publisher.name }}</a>
+                                                {% endfor %}
+                                            </p>
                                             <p>
                                                 {% if book.series %}<a href="{% url 'list' %}?q={{ book.series }}&series=1" class="label label-info">{% trans "Series" %}: {{ book.series }} ({{ book.series_index|roman_number }})</a>{% endif %}
                                             </p>
