@@ -32,6 +32,7 @@ setup(
         'unidecode>=0.04.16',
         'python-social-auth>=0.1.26',
         'django-gravatar2==1.1.4',
+        'tqdm>=3.4.0',
     ],
     test_suite='calibre_books.tests.suite',
     entry_points={
