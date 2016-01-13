@@ -3,6 +3,8 @@ Calibre Books
 
 Calibre web server based on the library data located on Dropbox.
 
+.. image:: https://img.shields.io/circleci/project/bogdal/calibre-books/master.svg
+    :target: https://circleci.com/gh/bogdal/calibre-books/tree/master
 
 Usage
 -----
