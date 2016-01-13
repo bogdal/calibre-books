@@ -1,0 +1,14 @@
+machine:
+  python:
+    version: 3.5.0
+  environment:
+    DJANGO_SETTINGS_MODULE: calibre_books.test_settings
+    MAX_CONCURRENCY: 1
+dependencies:
+  pre:
+  - pip install -U pip setuptools wheel
+  override:
+  - python setup.py install
+test:
+  override:
+  - python setup.py test
