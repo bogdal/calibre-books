@@ -173,7 +173,9 @@ if SOCIAL_AUTH_GITHUB_ORG_KEY:
 
 AUTHENTICATION_BACKENDS += ['django.contrib.auth.backends.ModelBackend']
 
-RAVEN_CONFIG = {'dsn': os.environ.get('SENTRY_DSN', '')}
+SENTRY_DSN = os.environ.get('SENTRY_DSN')
+if SENTRY_DSN:
+    RAVEN_CONFIG = {'dsn': SENTRY_DSN}
 
 LOGGING = {
     'version': 1,
