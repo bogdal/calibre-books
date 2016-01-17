@@ -1,5 +1,6 @@
 import os
 import dj_database_url
+import django_cache_url
 
 
 def env_list(variable, default=''):
@@ -199,15 +200,9 @@ LOGGING = {
     }
 }
 
-MEMCACHE_SERVERS = os.environ.get('MEMCACHE_SERVERS')
-
-if MEMCACHE_SERVERS:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': MEMCACHE_SERVERS,
-        }
-    }
+CACHE_URL = os.environ.get('CACHE_URL',
+                           os.environ.get('REDIS_URL', 'locmem://'))
+CACHES = {'default': django_cache_url.parse(CACHE_URL)}
 
 HAYSTACK_CONNECTIONS = {
     'default': {
