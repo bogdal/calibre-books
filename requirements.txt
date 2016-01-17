@@ -16,7 +16,6 @@ django-redis==4.3.0
 django-sslify==0.2.7
 django==1.8.5
 dropbox==4.0
-gunicorn==19.4.5
 oauthlib==1.0.3           # via python-social-auth, requests-oauthlib
 pillow==3.1.0
 psycopg2==2.6.1
@@ -33,4 +32,5 @@ static3==0.6.1            # via dj-static
 tqdm==3.7.1
 unidecode==0.4.18
 urllib3==1.14             # via dropbox
+uwsgi==2.0.12
 whoosh==2.7.0
