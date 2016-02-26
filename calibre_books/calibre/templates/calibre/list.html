@@ -63,9 +63,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-body">
-                                    {{ description.text|safe }}
-                                </div>
+                                {% if description %}
+                                    <div class="modal-body">
+                                        {{ description.text|safe }}
+                                    </div>
+                                {% endif %}
                                 <div class="modal-footer">
                                     <div class="pull-left">
                                         Lang:
