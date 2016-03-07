@@ -5,6 +5,7 @@
 #    pip-compile requirements.in
 #
 contextlib2==0.5.1        # via raven
+defusedxml==0.4.1         # via python3-openid
 dj-database-url==0.4.0
 dj-static==0.0.6
 django-bootstrap3==7.0.0
@@ -20,8 +21,8 @@ oauthlib==1.0.3           # via python-social-auth, requests-oauthlib
 pillow==3.1.1
 psycopg2==2.6.1
 pyjwt==1.4.0              # via python-social-auth
-python-openid==2.2.5      # via python-social-auth
 python-social-auth==0.2.14
+python3-openid==3.0.9     # via python-social-auth
 raven==5.11.0
 redis==2.10.5             # via django-redis
 requests-oauthlib==0.6.1  # via python-social-auth
