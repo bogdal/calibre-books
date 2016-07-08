@@ -27,4 +27,4 @@ def synchronize_calibre(force_update=False):
                         f.write(cover.read())
 
         # search indexes
-        call_command("update_index")
+        #call_command("update_index")
